@@ -1,0 +1,56 @@
+CREATE TABLE empleado
+(
+    id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(20) NOT NULL,
+    telefono VARCHAR(12),
+    domicilio VARCHAR(25) NOT NULL,
+    turno VARCHAR(10) NOT NULL,
+    cargo VARCHAR(9) NOT NULL,
+    PRIMARY KEY(id)
+)   ENGINE=InnoDB;
+
+CREATE TABLE horarios
+(
+    id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(20) NOT NULL,
+    telefono VARCHAR(12),
+    hora_entrada VARCHAR(5),
+    hora_salida VARCHAR(5),
+    hora_entrada_registro VARCHAR(5),
+    hora_salida_registro VARCHAR(5),
+    tiempo_de_diferencia VARCHAR(4),
+    cargo VARCHAR(9) NOT NULL,
+    PRIMARY KEY(id)
+)   ENGINE=InnoDB;
+    
+CREATE TABLE proveedores
+(
+    id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(20) NOT NULL,
+    telefono VARCHAR(12),
+    domicilio VARCHAR(25) NOT NULL,
+    correo VARCHAR(35) NOT NULL,
+    contacto VARCHAR(9) NOT NULL,
+    PRIMARY KEY(id)
+)   ENGINE=InnoDB;   
+
+CREATE TABLE almacen
+(
+    id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    marca VARCHAR(8) NOT NULL,
+    existencia VARCHAR(12),
+    modelo VARCHAR(20) NOT NULL,
+    stock VARCHAR(4),
+    PRIMARY KEY(id)
+)   ENGINE=InnoDB;
+
+CREATE TABLE pedido
+(
+    id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    marca VARCHAR(8) NOT NULL,
+    modelo VARCHAR(20) NOT NULL,
+    precio VARCHAR(5) NOT NULL,
+    piezas_solicitadas VARCHAR(5),
+    PRIMARY KEY(id)
+)   ENGINE=InnoDB;
+

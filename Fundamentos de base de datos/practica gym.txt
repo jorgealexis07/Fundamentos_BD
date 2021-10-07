@@ -1,0 +1,342 @@
+DROP DATABASE IF EXISTS gimnasio;
+CREATE DATABASE gimnasio DEFAULT CHARACTER SET utf8;
+
+USE gimnasio;
+
+CREATE TABLE profesor 
+(
+  /* Definición de campos */
+  id 		INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  apellidos 	VARCHAR(40) NOT NULL,
+  nombre 	VARCHAR(20) NOT NULL,
+  /* Definición de clave primaria */
+  PRIMARY KEY(id)
+) ENGINE=InnoDB; 
+
+CREATE TABLE alumno 
+(
+  id 		INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  rfc		VARCHAR(10) NOT NULL,
+  apellidos 	VARCHAR(40) NOT NULL,
+  nombre   	VARCHAR(20) NOT NULL,
+  tfno_contacto VARCHAR(9),
+  baja 		ENUM('N','S') DEFAULT 'N',
+  PRIMARY KEY(id)
+) ENGINE=InnoDB;
+
+CREATE TABLE actividad 
+(
+  id 		INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  profesor_id 	INTEGER UNSIGNED,
+  nombre 	VARCHAR(100) NOT NULL,
+  coste_mensual	INTEGER UNSIGNED NOT NULL DEFAULT 0,
+  activa ENUM('N','S') DEFAULT 'S',
+  PRIMARY KEY(id),
+  /* Definición de clave externa e integridad referencial */
+  INDEX actividad_FKIndex1(profesor_id),
+  FOREIGN KEY(profesor_id) REFERENCES profesor(id)
+  ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE recibo 
+(
+  alumno_id    	INTEGER UNSIGNED NOT NULL,
+  fecha_emision	DATE NOT NULL,
+  fecha_pago 	DATE,
+  cuantia 	INTEGER UNSIGNED NOT NULL,
+  PRIMARY KEY(alumno_id, fecha_emision),
+  INDEX recibo_FKIndex1(alumno_id),
+  FOREIGN KEY(alumno_id) REFERENCES alumno(id)
+  ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+
+CREATE TABLE demanda 
+(
+  alumno_id 	INTEGER UNSIGNED NOT NULL,
+  actividad_id 	INTEGER UNSIGNED NOT NULL,
+  PRIMARY KEY(alumno_id, actividad_id),
+  INDEX demanda_FKIndex1(alumno_id),
+  INDEX demanda_FKIndex2(actividad_id),
+  FOREIGN KEY(alumno_id) REFERENCES alumno(id)
+  ON DELETE CASCADE,
+  FOREIGN KEY(actividad_id) REFERENCES actividad(id)
+  ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE participa 
+(
+  actividad_id 	INTEGER UNSIGNED NOT NULL,
+  alumno_id 	INTEGER UNSIGNED NOT NULL,
+  PRIMARY KEY(actividad_id, alumno_id),
+  INDEX participa_FKIndex1(actividad_id),
+  INDEX participa_FKIndex2(alumno_id),
+  FOREIGN KEY(actividad_id) REFERENCES actividad(id)
+  ON DELETE CASCADE,
+  FOREIGN KEY(alumno_id) REFERENCES alumno(id)
+  ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+
+
+INSERT INTO profesor (apellidos,nombre) VALUES ('Fernández Benítez','Rosa');
+INSERT INTO profesor (apellidos,nombre) VALUES ('García Rodríguez','Luis');
+INSERT INTO profesor (apellidos,nombre) VALUES ('Gómez Javaloyes','Felipe');
+
+
+INSERT INTO actividad (profesor_id,nombre,coste_mensual) VALUES (2,'Judo',15);
+INSERT INTO actividad (profesor_id,nombre,coste_mensual) VALUES (3,'Aerobic',10);
+INSERT INTO actividad (profesor_id,nombre,coste_mensual) VALUES (1,'Halterofilia',15);
+INSERT INTO actividad (profesor_id,nombre,coste_mensual) VALUES (2,'Ciclo Indoor',20);
+INSERT INTO actividad (nombre,activa) VALUES ('Gimnasia de mantenimiento','N');
+INSERT INTO actividad (nombre,activa) VALUES ('Just Pump','N');
+
+
+
+
+INSERT INTO alumno (apellidos,nombre,rfc,tfno_contacto) VALUES ('Núñez Gil','Luisa','31812304-S','956333444');
+INSERT INTO alumno (apellidos,nombre,rfc,tfno_contacto) VALUES ('Pérez Carrasco','Angel','20812344-N','628123456');
+INSERT INTO alumno (apellidos,nombre,rfc,tfno_contacto) VALUES ('De la Torre Huertas','Clara','31123456-V','956080808');
+INSERT INTO alumno (apellidos,nombre,rfc) VALUES ('Ojeda López','David','31071234-M');
+INSERT INTO alumno (apellidos,nombre,rfc) VALUES ('Sánchez Pérez','Lorenzo','31839938-A');
+INSERT INTO alumno (apellidos,nombre,rfc,tfno_contacto) VALUES ('López Verdugo','Rita','25036543-P','956122112');
+INSERT INTO alumno (apellidos,nombre,rfc,tfno_contacto) VALUES ('Ruíz Jiménez','Francisco Javier', '12345678-Z','647910234');
+INSERT INTO alumno (apellidos,nombre,rfc,tfno_contacto) VALUES ('Peña Sola','Rafael','12125651-M','956080041');
+
+
+
+INSERT INTO participa VALUES (1,3);
+INSERT INTO participa VALUES (1,5);
+INSERT INTO participa VALUES (1,6);
+INSERT INTO participa VALUES (1,7);
+INSERT INTO participa VALUES (2,1);
+INSERT INTO participa VALUES (2,2);
+INSERT INTO participa VALUES (2,3);
+INSERT INTO participa VALUES (3,3);
+INSERT INTO participa VALUES (4,1);
+INSERT INTO participa VALUES (4,2);
+INSERT INTO participa VALUES (4,3);
+INSERT INTO participa VALUES (4,4);
+INSERT INTO participa VALUES (4,5);
+INSERT INTO participa VALUES (4,6);
+INSERT INTO participa VALUES (4,7);
+
+
+
+INSERT INTO demanda VALUES (2,5);
+INSERT INTO demanda VALUES (4,6);
+INSERT INTO demanda VALUES (7,6);
+
+/* El alumno ‘Clara De la Torre Huertas’ cambia de teléfono de contacto */
+UPDATE alumno 
+   SET tfno_contacto='965080807' 
+	WHERE apellidos LIKE '%de la torre huertas%' AND nombre LIKE '%clara%';
+
+
+UPDATE actividad 
+   SET activa='S', coste_mensual=20, profesor_id=1 
+	WHERE nombre='Just Pump';
+
+/* Listado de todas las actividades activas (Folleto) */
+SELECT nombre,coste_mensual 
+   FROM actividad 
+	WHERE activa='S';
+
+/* Listado de las actividades demandadas, descendente */
+SELECT nombre, COUNT(*) AS ’Demandas’ 
+   FROM demanda, actividad 
+	WHERE actividad_id = id 
+	   GROUP BY actividad_id DESC;
+
+
+/* Listado de profesores y actividades asociadas */
+SELECT p.apellidos, p.nombre, a.nombre 
+   FROM actividad a, profesor p 
+	WHERE a.profesor_id = p.id 
+	   ORDER BY p.apellidos, p.nombre;
+
+/* Consulta de alumnos que participan en la actividad 2 */
+SELECT al.apellidos, al.nombre 
+	FROM participa pr, alumno al
+		WHERE al.id=pr.alumno_id AND pr.actividad_id = 2;
+
+/* Consulta de alumnos que participan en la actividad ‘Judo’ */
+SELECT al.apellidos, al.nombre 
+	FROM participa pr, alumno al
+		WHERE al.id = pr.alumno_id AND pr.actividad_id 
+			in (SELECT id FROM actividad WHERE nombre='Judo');
+
+/* Listado de actividades con un coste mensual de entre 10 y 15 pesos */
+SELECT nombre,coste_mensual 
+	FROM actividad 
+		WHERE coste_mensual BETWEEN 10 AND 15;
+
+/* Precio mayor de todas las actividades */
+SELECT MAX(coste_mensual), nombre 
+	FROM actividad;
+
+SELECT act.nombre AS 'Actividad', act.coste_mensual AS 'Precio', CONCAT(pr.nombre,' ',pr.apellidos) AS 'Profesor' 
+	FROM actividad act, profesor pr
+		WHERE act.profesor_id = pr.id AND act.activa='S' 
+			ORDER BY act.nombre;
+
+
+SELECT act.nombre AS 'Actividad', act.coste_mensual AS 'Precio', CONCAT(pr.nombre,' ',pr.apellidos) AS 'Profesor' 
+	FROM actividad act, profesor pr
+		WHERE act.profesor_id = pr.id AND act.activa='S' 
+			ORDER BY act.nombre;
+
+
+
+/*Pero también podríamos escribir la siguiente orden, usando INNER JOIN y daría el mismo resultado*/
+
+SELECT (pr.apellidos + ',' + pr.nombre) AS 'Profesor', act.nombre AS 'Actividad', act.coste_mensual AS 'Precio'
+	FROM actividad act INNER JOIN profesor pr ON act.profesor_id = pr.id AND act.activa = 'S' 
+		ORDER BY act.nombre;
+
+/*La cláusula JOIN tiene dos extensiones más: RIGHT JOIN y LEFT JOIN. 
+Quiere esto decir que si, por casualidad, existe un registro en la tabla actividad sin ningún código de profesor asociado, 
+la sentencia con LEFT JOIN presentaría también esos registros.*/
+
+SELECT act.nombre AS 'Actividad', act.coste_mensual AS 'Precio', CONCAT(pr.apellidos,', ',pr.nombre) AS 'Profesor' 
+	FROM actividad act LEFT JOIN profesor pr ON act.profesor_id = pr.id 
+		ORDER BY act.nombre;
+
+Y si hubiera algún profesor que no estuviera asociado a una actividad concreta también lo obtendríamos con RIGHT JOIN. 
+
+Insertamos un nuevo profesor:
+
+INSERT INTO profesor (apellidos, nombre) VALUES ('Hernández Santamaría','Federico');
+
+Y realizamos la consulta:
+
+SELECT act.nombre AS 'Actividad', act.coste_mensual AS 'Precio', CONCAT(pr.apellidos,', ',pr.nombre) AS 'Profesor' 
+	FROM actividad act RIGHT JOIN profesor pr ON act.profesor_id = pr.id 
+		ORDER BY act.nombre;
+
+Algunos ejemplos más con JOIN:
+/* Alumnos participantes en cada actividad */
+
+SELECT act.nombre, CONCAT(al.apellidos,', ',al.nombre) AS 'Alumno' 
+   FROM participa pa
+	JOIN actividad act ON act.id=pa.actividad_id
+		JOIN alumno al ON al.id = pa.alumno_id
+   ORDER BY act.nombre, al.apellidos, al.nombre;
+
+
+SELECT act.nombre, COUNT(*) 
+	FROM demanda d
+		JOIN actividad act ON act.id = d.actividad_id 
+GROUP BY d.actividad_id;
+
+/* Total a recibir por el gimnasio mensualmente */
+
+SELECT SUM(coste_mensual) 
+	FROM participa p JOIN actividad act ON act.id = p.actividad_id;
+
+/* Lo mismo, pero por cada actividad */
+
+SELECT act.nombre AS 'Actividad',SUM(coste_mensual) AS 'Total a ingresar al mes' 
+	FROM participa p JOIN actividad act ON act.id = p.actividad_id 
+GROUP BY p.actividad_id;
+
+SELECT act.nombre AS 'Actividad',SUM(coste_mensual) AS 'Total a ingresar al mes' 
+	FROM participa p, actividad act 
+	WHERE act.id = p.actividad_id 
+GROUP BY p.actividad_id;
+
+/*procedimiento almacenado*/
+
+/* Especificamos un nuevo delimitador de instrucción */
+DELIMITER // 
+CREATE PROCEDURE genera_recibo(in identificador int)
+BEGIN
+DECLARE total INT;
+SELECT SUM(coste_mensual) INTO total 
+	FROM actividad 
+		WHERE id IN (SELECT actividad_id 
+				FROM participa 
+					WHERE alumno_id=identificador);
+INSERT INTO recibo (alumno_id, fecha_emision, cuantia) 
+VALUES (identificador, current_date(),total);
+END //
+
+
+Y luego hacemos llamadas al mismo, por ejemplo:
+CALL genera_recibo(1); /* Recibo del alumno 1 */
+CALL genera_recibo(2); 
+CALL genera_recibo(3); 
+CALL genera_recibo(4); 
+CALL genera_recibo(5);
+CALL genera_recibo(6); 
+CALL genera_recibo(7); 
+Y así hasta el alumno 7.
+A partir de ahora podemos realizar lo siguiente:
+/* Visualizar los recibos */
+
+
+
+SELECT * FROM recibo;
+
+/* El alumno 1 nos paga el recibo del mes de MAYO de 2018. */
+
+UPDATE recibo SET fecha_pago=CURRENT_DATE() 
+where alumno_id=1 AND MONTH(fecha_emision)=5 AND YEAR(fecha_emision)=2018;
+
+/* Listado de recibos impagados por alumno */
+
+SELECT al.apellidos, al.nombre, count(*) AS 'Recibos impagados' 
+	FROM recibo r JOIN alumno al ON r.alumno_id = al.id AND r.fecha_pago IS NULL 
+GROUP BY alumno_id;
+
+/*Para comprobar el uso de disparadores vamos a crear una nueva tabla, independiente, 
+que va a contener información de cada actualización que se realice sobre la tabla recibo.
+Creamos, primero, la nueva tabla:*/
+
+CREATE TABLE quien_ha_sido 
+(
+	id 			INT UNSIGNED AUTO_INCREMENT, 
+	alumno_id 		INT,
+	fecha_emision 		DATE,
+	fecha_pago_antigua 	DATE, 
+	fecha_pago_nueva 	DATE, 
+	usuario 		VARCHAR(100),
+	cuando 			TIMESTAMP,
+	PRIMARY KEY(id)
+);
+
+Y luego creamos el trigger que se ejecutará en caso de actualización sobre la tabla recibo:
+
+DELIMITER //
+CREATE TRIGGER control AFTER UPDATE ON recibo FOR EACH ROW
+BEGIN
+INSERT INTO quien_ha_sido (alumno_id,fecha_emision,fecha_pago_antigua,fecha_pago_nueva,usuario) 
+VALUES (old.alumno_id,old.fecha_emision,old.fecha_pago,new.fecha_pago,CURRENT_USER());
+END //
+
+
+
+UPDATE recibo SET fecha_pago=CURRENT_DATE() 
+where alumno_id=4 AND MONTH(fecha_emision)=12 AND YEAR(fecha_emision)=2017;
+
+SELECT * FROM quien_ha_sido;
+
+
+
+Los alias OLD y NEW hacen referencia a las columnas de la 
+tupla que ha sido modificada (old) o que ha sido insertada (new).
+
+CREATE VIEW folleto AS 
+	SELECT nombre AS 'actividad',coste_mensual AS 'precio' 
+		FROM actividad 
+			WHERE activa='S' 
+	ORDER BY nombre;
+
+
+SELECT * FROM folleto ORDER BY precio DESC;
+
+
+BEGIN;
+	INSERT INTO profesor VALUES(8,'Pérez Gil','Macarena');
+	UPDATE actividad SET actividad.profesor_id=4 WHERE nombre='Judo';
+COMMIT;

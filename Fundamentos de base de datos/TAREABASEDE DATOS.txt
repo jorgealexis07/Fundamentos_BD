@@ -1,0 +1,300 @@
+9 rows in set (0.00 sec)
+
+mysql> SELECT * FROM PRECIO_HABITACION WHERE PRECIO < 400
+    -> ;
++----------+--------+---------+----------+
+| IDPRECIO | PRECIO | ID_TEMP | ID_T_HAB |
++----------+--------+---------+----------+
+|        1 | 300.00 |       1 |        1 |
+|        2 | 350.00 |       2 |        1 |
+|        4 | 350.00 |       4 |        1 |
+|        5 | 300.00 |       5 |        1 |
+|        6 | 350.00 |       1 |        2 |
+|       10 | 350.00 |       5 |        2 |
++----------+--------+---------+----------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM PRECIO_HABITACION WHERE PRECIO = 500;
++----------+--------+---------+----------+
+| IDPRECIO | PRECIO | ID_TEMP | ID_T_HAB |
++----------+--------+---------+----------+
+|       13 | 500.00 |       3 |        3 |
+|       16 | 500.00 |       1 |        4 |
+|       20 | 500.00 |       5 |        4 |
++----------+--------+---------+----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM SERVICIOS;
++-------------+------------------------------+----------------------------------
+--------------------+--------+------+---------------------+
+| IDSERVICIOS | NOMBRESERVICIO               | DESCRIPCION
+                    | PRECIO | IVA  | FECHA               |
++-------------+------------------------------+----------------------------------
+--------------------+--------+------+---------------------+
+|           1 | PARKING PRIVADO              | PENSIÓN POR DIA
+                    |  40.00 | 7.00 | 2017-01-01 00:00:00 |
+|           2 | PLANCHADO                    | PRENDA SENCILLA
+                    |  35.00 | 7.00 | 2017-01-01 00:00:00 |
+|           3 | PLANCHADO                    | PRENDA ESPECIAL
+                    |  66.00 | 7.00 | 2017-01-01 00:00:00 |
+|           4 | LAVANDERIA Y PLANCHADO       | CAMISA
+                    |  60.00 | 7.00 | 2017-01-01 00:00:00 |
+|           5 | LAVANDERIA Y PLANCHADO       | FALDA
+                    |  60.00 | 7.00 | 2017-01-01 00:00:00 |
+|           6 | LAVANDERIA Y PLANCHADO       | PANTALÓN
+                    |  60.00 | 7.00 | 2017-01-01 00:00:00 |
+|           7 | LAVANDERIA Y PLANCHADO       | FALDA LARGA
+                    |  65.00 | 7.00 | 2017-01-01 00:00:00 |
+|           8 | LAVANDERIA Y PLANCHADO       | CHALECO
+                    |  60.00 | 7.00 | 2017-01-01 00:00:00 |
+|           9 | LAVANDERIA Y PLANCHADO       | BLUSA
+                    |  60.00 | 7.00 | 2017-01-01 00:00:00 |
+|          10 | LAVANDERIA Y PLANCHADO       | BLAZER
+                    |  60.00 | 7.00 | 2017-01-01 00:00:00 |
+|          11 | LAVANDERIA Y PLANCHADO       | VESTIDO SENCILLO
+                    |  95.00 | 7.00 | 2017-01-01 00:00:00 |
+|          14 | LAVADO Y PLANCHADO EN SECO   | VESTIDO DE NOCHE
+                    | 135.00 | 7.00 | 2017-01-01 00:00:00 |
+|          15 | LAVADO Y PLANCHADO EN SECO   | TRAJE (SACO Y PANTALÓN)
+                    | 119.00 | 7.00 | 2017-01-01 00:00:00 |
+|          16 | LAVADO Y PLANCHADO EN SECO   | VESTIDO CON PEDRERÍA
+                    | 245.00 | 7.00 | 2017-01-01 00:00:00 |
+|          17 | LAVADO Y PLANCHADO EN SECO   | CORBATA
+                    |  60.00 | 7.00 | 2017-01-01 00:00:00 |
+|          18 | LAVADO Y PLANCHADO EN SECO   | SWEATER
+                    |  65.00 | 7.00 | 2017-01-01 00:00:00 |
+|          19 | LAVADO Y PLANCHADO EN SECO   | CHAMARRA
+                    | 160.00 | 7.00 | 2017-01-01 00:00:00 |
+|          20 | LAVADO Y PLANCHADO EN SECO   | SWEATER LARGO
+                    |  75.00 | 7.00 | 2017-01-01 00:00:00 |
+|          21 | LAVADO Y PLANCHADO EN SECO   | ABRIGO CORTO
+                    |  95.00 | 7.00 | 2017-01-01 00:00:00 |
+|          22 | LAVADO Y PLANCHADO EN SECO   | ABRIGO CORTO
+                    |  95.00 | 7.00 | 2017-01-01 00:00:00 |
+|          23 | ALIMENTOS & BEBIDAS          | CONTINENTAL: DESAYUNO LIGERO
+                    |  75.00 | 7.00 | 2017-01-01 00:00:00 |
+|          24 | ALIMENTOS & BEBIDAS          | BUFFET: DESAYUNO AMERICANO AUTOSE
+RVICIO              | 100.00 | 7.00 | 2017-01-01 00:00:00 |
+|          25 | ALIMENTOS & BEBIDAS          | HALF BOARD: DESAYUNO Y COMIDA O C
+ENA                 | 220.00 | 7.00 | 2017-01-01 00:00:00 |
+|          26 | ALIMENTOS & BEBIDAS          | FULL BOARD: DESAYUNO, COMIDA Y CE
+NA                  | 310.00 | 7.00 | 2017-01-01 00:00:00 |
+|          27 | ALIMENTOS & BEBIDAS          | ALL INCLUSIVE: TODAS LAS COMIDAS
+Y BEBIDAS INCLUIDAS | 400.00 | 7.00 | 2017-01-01 00:00:00 |
+|          28 | SERVICIO DE HABITACIONES 24H | COMPRA ARTICULOS VARIOS
+                    |  20.00 | 7.00 | 2017-01-01 00:00:00 |
++-------------+------------------------------+----------------------------------
+--------------------+--------+------+---------------------+
+26 rows in set (0.00 sec)
+
+mysql> SELECT NOMBRES, SERVICIO, PRECIO FROM SERVICIOS;
+ERROR 1054 (42S22): Unknown column 'NOMBRES' in 'field list'
+mysql> SELECT DESCRIPCION, SERVICIO, PRECIO FROM SERVICIOS;
+ERROR 1054 (42S22): Unknown column 'SERVICIO' in 'field list'
+mysql> SELECT DESCRIPCION, FECHA, PRECIO FROM SERVICIOS;
++------------------------------------------------------+---------------------+--
+------+
+| DESCRIPCION                                          | FECHA               | P
+RECIO |
++------------------------------------------------------+---------------------+--
+------+
+| PENSIÓN POR DIA                                      | 2017-01-01 00:00:00 |
+40.00 |
+| PRENDA SENCILLA                                      | 2017-01-01 00:00:00 |
+35.00 |
+| PRENDA ESPECIAL                                      | 2017-01-01 00:00:00 |
+66.00 |
+| CAMISA                                               | 2017-01-01 00:00:00 |
+60.00 |
+| FALDA                                                | 2017-01-01 00:00:00 |
+60.00 |
+| PANTALÓN                                             | 2017-01-01 00:00:00 |
+60.00 |
+| FALDA LARGA                                          | 2017-01-01 00:00:00 |
+65.00 |
+| CHALECO                                              | 2017-01-01 00:00:00 |
+60.00 |
+| BLUSA                                                | 2017-01-01 00:00:00 |
+60.00 |
+| BLAZER                                               | 2017-01-01 00:00:00 |
+60.00 |
+| VESTIDO SENCILLO                                     | 2017-01-01 00:00:00 |
+95.00 |
+| VESTIDO DE NOCHE                                     | 2017-01-01 00:00:00 | 1
+35.00 |
+| TRAJE (SACO Y PANTALÓN)                              | 2017-01-01 00:00:00 | 1
+19.00 |
+| VESTIDO CON PEDRERÍA                                 | 2017-01-01 00:00:00 | 2
+45.00 |
+| CORBATA                                              | 2017-01-01 00:00:00 |
+60.00 |
+| SWEATER                                              | 2017-01-01 00:00:00 |
+65.00 |
+| CHAMARRA                                             | 2017-01-01 00:00:00 | 1
+60.00 |
+| SWEATER LARGO                                        | 2017-01-01 00:00:00 |
+75.00 |
+| ABRIGO CORTO                                         | 2017-01-01 00:00:00 |
+95.00 |
+| ABRIGO CORTO                                         | 2017-01-01 00:00:00 |
+95.00 |
+| CONTINENTAL: DESAYUNO LIGERO                         | 2017-01-01 00:00:00 |
+75.00 |
+| BUFFET: DESAYUNO AMERICANO AUTOSERVICIO              | 2017-01-01 00:00:00 | 1
+00.00 |
+| HALF BOARD: DESAYUNO Y COMIDA O CENA                 | 2017-01-01 00:00:00 | 2
+20.00 |
+| FULL BOARD: DESAYUNO, COMIDA Y CENA                  | 2017-01-01 00:00:00 | 3
+10.00 |
+| ALL INCLUSIVE: TODAS LAS COMIDAS Y BEBIDAS INCLUIDAS | 2017-01-01 00:00:00 | 4
+00.00 |
+| COMPRA ARTICULOS VARIOS                              | 2017-01-01 00:00:00 |
+20.00 |
++------------------------------------------------------+---------------------+--
+------+
+26 rows in set (0.00 sec)
+
+mysql> SELECT * FROM TEMPORADA;
++---------+---------------------+---------------------+------+
+| ID_TEMP | FECHAINICIO         | FECHAFINAL          | TIPO |
++---------+---------------------+---------------------+------+
+|       1 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 | B    |
+|       2 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 | M    |
+|       3 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 | A    |
+|       4 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 | B    |
+|       5 | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 | A    |
++---------+---------------------+---------------------+------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM TIPO_HABITACION;
++----------+-------+----------+-------+---------+
+| ID_T_HAB | CAMAS | EXTERIOR | SALON | TERRAZA |
++----------+-------+----------+-------+---------+
+|        1 |     1 | SI       | NO    | NO      |
+|        2 |     2 | SI       | NO    | NO      |
+|        3 |     3 | SI       | NO    | NO      |
+|        4 |     1 | SI       | SI    | NO      |
++----------+-------+----------+-------+---------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM PRECIO_HABITACION, TIPO_HABITACION WHERE PRECIO = 400, CAMA
+S = 2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that
+corresponds to your MySQL server version for the right syntax to use near ' CAMA
+S = 2' at line 1
+mysql> SELECT * FROM PRECIO_HABITACION, TIPO_HABITACION WHERE PRECIO = 400, CAMA
+S = 2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that
+corresponds to your MySQL server version for the right syntax to use near ' CAMA
+S = 2' at line 1
+mysql> SELECT * FROM TIPO_HABITACION WHERE CAMAS = 2;
++----------+-------+----------+-------+---------+
+| ID_T_HAB | CAMAS | EXTERIOR | SALON | TERRAZA |
++----------+-------+----------+-------+---------+
+|        2 |     2 | SI       | NO    | NO      |
++----------+-------+----------+-------+---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM SERVICIOS;
++-------------+------------------------------+----------------------------------
+--------------------+--------+------+---------------------+
+| IDSERVICIOS | NOMBRESERVICIO               | DESCRIPCION
+                    | PRECIO | IVA  | FECHA               |
++-------------+------------------------------+----------------------------------
+--------------------+--------+------+---------------------+
+|           1 | PARKING PRIVADO              | PENSIÓN POR DIA
+                    |  40.00 | 7.00 | 2017-01-01 00:00:00 |
+|           2 | PLANCHADO                    | PRENDA SENCILLA
+                    |  35.00 | 7.00 | 2017-01-01 00:00:00 |
+|           3 | PLANCHADO                    | PRENDA ESPECIAL
+                    |  66.00 | 7.00 | 2017-01-01 00:00:00 |
+|           4 | LAVANDERIA Y PLANCHADO       | CAMISA
+                    |  60.00 | 7.00 | 2017-01-01 00:00:00 |
+|           5 | LAVANDERIA Y PLANCHADO       | FALDA
+                    |  60.00 | 7.00 | 2017-01-01 00:00:00 |
+|           6 | LAVANDERIA Y PLANCHADO       | PANTALÓN
+                    |  60.00 | 7.00 | 2017-01-01 00:00:00 |
+|           7 | LAVANDERIA Y PLANCHADO       | FALDA LARGA
+                    |  65.00 | 7.00 | 2017-01-01 00:00:00 |
+|           8 | LAVANDERIA Y PLANCHADO       | CHALECO
+                    |  60.00 | 7.00 | 2017-01-01 00:00:00 |
+|           9 | LAVANDERIA Y PLANCHADO       | BLUSA
+                    |  60.00 | 7.00 | 2017-01-01 00:00:00 |
+|          10 | LAVANDERIA Y PLANCHADO       | BLAZER
+                    |  60.00 | 7.00 | 2017-01-01 00:00:00 |
+|          11 | LAVANDERIA Y PLANCHADO       | VESTIDO SENCILLO
+                    |  95.00 | 7.00 | 2017-01-01 00:00:00 |
+|          14 | LAVADO Y PLANCHADO EN SECO   | VESTIDO DE NOCHE
+                    | 135.00 | 7.00 | 2017-01-01 00:00:00 |
+|          15 | LAVADO Y PLANCHADO EN SECO   | TRAJE (SACO Y PANTALÓN)
+                    | 119.00 | 7.00 | 2017-01-01 00:00:00 |
+|          16 | LAVADO Y PLANCHADO EN SECO   | VESTIDO CON PEDRERÍA
+                    | 245.00 | 7.00 | 2017-01-01 00:00:00 |
+|          17 | LAVADO Y PLANCHADO EN SECO   | CORBATA
+                    |  60.00 | 7.00 | 2017-01-01 00:00:00 |
+|          18 | LAVADO Y PLANCHADO EN SECO   | SWEATER
+                    |  65.00 | 7.00 | 2017-01-01 00:00:00 |
+|          19 | LAVADO Y PLANCHADO EN SECO   | CHAMARRA
+                    | 160.00 | 7.00 | 2017-01-01 00:00:00 |
+|          20 | LAVADO Y PLANCHADO EN SECO   | SWEATER LARGO
+                    |  75.00 | 7.00 | 2017-01-01 00:00:00 |
+|          21 | LAVADO Y PLANCHADO EN SECO   | ABRIGO CORTO
+                    |  95.00 | 7.00 | 2017-01-01 00:00:00 |
+|          22 | LAVADO Y PLANCHADO EN SECO   | ABRIGO CORTO
+                    |  95.00 | 7.00 | 2017-01-01 00:00:00 |
+|          23 | ALIMENTOS & BEBIDAS          | CONTINENTAL: DESAYUNO LIGERO
+                    |  75.00 | 7.00 | 2017-01-01 00:00:00 |
+|          24 | ALIMENTOS & BEBIDAS          | BUFFET: DESAYUNO AMERICANO AUTOSE
+RVICIO              | 100.00 | 7.00 | 2017-01-01 00:00:00 |
+|          25 | ALIMENTOS & BEBIDAS          | HALF BOARD: DESAYUNO Y COMIDA O C
+ENA                 | 220.00 | 7.00 | 2017-01-01 00:00:00 |
+|          26 | ALIMENTOS & BEBIDAS          | FULL BOARD: DESAYUNO, COMIDA Y CE
+NA                  | 310.00 | 7.00 | 2017-01-01 00:00:00 |
+|          27 | ALIMENTOS & BEBIDAS          | ALL INCLUSIVE: TODAS LAS COMIDAS
+Y BEBIDAS INCLUIDAS | 400.00 | 7.00 | 2017-01-01 00:00:00 |
+|          28 | SERVICIO DE HABITACIONES 24H | COMPRA ARTICULOS VARIOS
+                    |  20.00 | 7.00 | 2017-01-01 00:00:00 |
++-------------+------------------------------+----------------------------------
+--------------------+--------+------+---------------------+
+26 rows in set (0.00 sec)
+
+mysql> SELECT * FROM CLIENTES;
++------------+----------+-----------------+----------------+------------+-------
+-----------------------------------------+-----------+---------------+
+| ID_CLIENTE | PAIS     | NOMBRE          | APELLIDOP      | APELLIDOM  | DIRECC
+ION                                      | TELEFONO  | OBSERVACIONES |
++------------+----------+-----------------+----------------+------------+-------
+-----------------------------------------+-----------+---------------+
+| 12345      | BRASIL   | JOAO            | TEIXEIRA       | COSTA      | AVDA P
+RINCESA ISABEL, 183, COPACABANA          | 942344444 | BUEN CLIENTE  |
+| 12395      | BRASIL   | AIRTON          | SARAVI         | CUNHA      | PLAZA
+PIO X, 119, RIO DE JANEIRO               | 942456444 | NULL          |
+| 223365     | MÉXICO   | JAVIER          | SANTILLAN      | PAREDES    | COLIMA
+ NO.12                                   | 57575609  | BUEN CLIENTE  |
+| 44444      | ESPAÑA   | LUIS            | GARCÍA         | GARCÍA     | CALLE
+MAYOR, 67                                | 942456444 | NULL          |
+| 44767      | PORTUGAL | THIAGO          | COELHO         | DA SILVA   | AVDA C
+ONDE VALBO N° 30                         | 865788953 | NULL          |
+| 456789     | FRANCIA  | LUDOVIC         | GIULY          | BOURQUIN   | 18 AVE
+NUE ALSACEN COUR                         | 37890194  | NULL          |
+| 457689     | FRANCIA  | ETHAN           | DE LA FONTAINE | BAUDIN     | 2 BD S
+AINT MARTIN                              | 37865194  | NULL          |
+| 765789     | FRANCIA  | DIDIER          | COTÉ           | BISSET     | 115, R
+UE DE L´ABBÉ GROULT                      | 37777348  | BUEN CLIENTE  |
+| 787745     | COLOMBIA | MOISES ABSALÓN  | LÓPEZ          | GONZÁLEZ   | CRA 69
+ NO 49 - 06, MEDELLÍN                    | 2480600   | NULL          |
+| 787779     | COLOMBIA | PEDRO CLAVER    | GARCÍA         | RODRÍGUEZ  | CARRER
+A 106 A NO. 18-51 BARR. CD. JARDIN, CALI | 7459093   | NULL          |
++------------+----------+-----------------+----------------+------------+-------
+-----------------------------------------+-----------+---------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT NOMBRE, TELEFONO, PAIS FROM CLIENTES WHERE NOMBRE = 'DIDIER';
++--------+----------+---------+
+| NOMBRE | TELEFONO | PAIS    |
++--------+----------+---------+
+| DIDIER | 37777348 | FRANCIA |
++--------+----------+---------+
+1 row in set (0.00 sec)
+
+mysql>

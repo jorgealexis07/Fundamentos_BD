@@ -1,0 +1,97 @@
+CREATE DATABASE tiendabolsas DEFAULT CHARACTER SET utf8;
+
+USE tiendabolsas;
+
+CREATE TABLE empleado
+(
+  /* Definición de campos */
+  id 		INTEGER,
+  nombre 	VARCHAR(20) NOT NULL,
+  telefono	VARCHAR(12) NOT NULL,
+  domicilio	VARCHAR(40) NOT NULL,
+  turno		VARCHAR(10) NOT NULL,
+  cargo		VARCHAR(20) NOT NULL,
+  PRIMARY KEY(id)
+) ENGINE=InnoDB; 
+
+CREATE TABLE horarios 
+(
+  id 		INTEGER,
+  nombre_emp	VARCHAR(10) NOT NULL,
+  telefono_emp 	VARCHAR(40) NOT NULL,
+  hentrada 	VARCHAR(20) NOT NULL,
+  hsalida	VARCHAR(9) NOT NULL,
+  hentradar 	VARCHAR(20) NOT NULL,
+  hsalidar	VARCHAR(9) NOT NULL,  
+  diftiempo 	ENUM('N','S') DEFAULT 'N',
+  diftiempos	VARCHAR(9) NOT NULL, 
+  cargo_emp		VARCHAR(20) NOT NULL,
+  INDEX empleado_FKIndex1(nombre_emp),
+  FOREIGN KEY(nombre_emp) REFERENCES empleado(nombre)
+  INDEX empleado_FKIndex2(telefono_emp),
+  FOREIGN KEY(telefono_emp) REFERENCES empleado(telefono)
+  INDEX empleado_FKIndex3(cargo_emp),
+  FOREIGN KEY(cargo_emp) REFERENCES empleado(cargo)
+  ON DELETE SET NULL
+  PRIMARY KEY(id)
+) ENGINE=InnoDB;
+
+
+CREATE TABLE proveedores 
+(
+  id 		INTEGER,
+  nombre	VARCHAR(10) NOT NULL,
+  telefono 	VARCHAR(12) NOT NULL,
+  domicilio 	VARCHAR(40) NOT NULL,
+  correo	VARCHAR(30) NOT NULL,
+  contacto	VARCHAR(20) NOT NULL,
+) ENGINE=InnoDB;
+
+CREATE TABLE almacen
+(
+  id 		INTEGER,
+  marca		VARCHAR(10) NOT NULL,
+  existencia 	INTEGER NOT NULL,
+  modelo 	VARCHAR(40) NOT NULL,
+  stock		INTEGER NOT NULL,
+) ENGINE=InnoDB;
+
+CREATE TABLE pedido
+(
+  id_alm 	INTEGER,
+  marca_alm		VARCHAR(10) NOT NULL,
+  modelo_alm 	VARCHAR(40) NOT NULL,
+  precio	INTEGER NOT NULL,
+  cantidad	INTEGER NOT NULL,
+  INDEX almacen_FKIndex1(id_alm),
+  FOREIGN KEY(id_alm) REFERENCES almacen(id)
+  INDEX almacen_FKIndex2(id_alm),
+  FOREIGN KEY(marca_alm) REFERENCES almacen(marca)
+  INDEX almacen_FKIndex3(id_alm),
+  FOREIGN KEY(modelo_alm) REFERENCES almacen(modelo)
+  ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+
+
+INSERT INTO empleado(id,nombre,telefono,domicilio,turno,cargo) VALUES ('1025','Lucia','55235689','Manzanas 28','Matutino','Vendedor');
+INSERT INTO empleado(id,nombre,telefono,domicilio,turno,cargo) VALUES ('1026','Sofia','55368698','Grnajas 53','Matutino','Gerente');
+INSERT INTO empleado(id,nombre,telefono,domicilio,turno,cargo) VALUES ('1027','Jesus','52398638','Benito juarez 80','Vespertino','Vendedor');
+INSERT INTO empleado(id,nombre,telefono,domicilio,turno,cargo) VALUES ('1028','Carlos','55974389','Av. central 5','Vespertino','Gerente');
+
+INSERT INTO horario (id,nombre_emp,telefono_emp,hentrada,hsalida,hentradar,hsalidar,diftiempo, diftiempos,cargo_emp) VALUES (1,1,1,'9:00','14:05','N','0',1);
+INSERT INTO horario (id,nombre_emp,telefono_emp,hentrada,hsalida,hentradar,hsalidar,diftiempo, diftiempos,cargo_emp) VALUES (2,2,2,'8:45','14:10','N','+10',2);
+INSERT INTO horario (id,nombre_emp,telefono_emp,hentrada,hsalida,hentradar,hsalidar,diftiempo, diftiempos,cargo_emp) VALUES (3,3,3,'13:50','19:00','N','-5',3);
+INSERT INTO horario (id,nombre_emp,telefono_emp,hentrada,hsalida,hentradar,hsalidar,diftiempo, diftiempos,cargo_emp) VALUES (4,4,4,'13:40','19:10','N','+15',4);
+
+INSERT INTO almacen(id,marca,existencia,modelo,stock) VALUES ('82555','chenson','20','MJM-31','2');
+INSERT INTO almacen(id,marca,existencia,modelo,stock) VALUES ('18753','chenson','30','GFNGFM-4','3');
+INSERT INTO almacen(id,marca,existencia,modelo,stock) VALUES ('18786','chenson','20','BFGHFGJ-54T','2');
+INSERT INTO almacen(id,marca,existencia,modelo,stock) VALUES ('18748','skypeak','4','DVDG-1DSG','4');
+INSERT INTO almacen(id,marca,existencia,modelo,stock) VALUES ('84552','skypeak','5','DGFDH-4E','5');
+
+INSERT INTO pedido(id_alm,marca_alm,modelo,precio,cantidad) VALUES (1,1,1,'$250','2');
+INSERT INTO pedido(id_alm,marca_alm,modelo,precio,cantidad) VALUES (2,2,2,'$300','3');
+INSERT INTO pedido(id_alm,marca_alm,modelo,precio,cantidad) VALUES (3,3,3,'$500','2');
+INSERT INTO pedido(id_alm,marca_alm,modelo,precio,cantidad) VALUES (4,4,4,'$1200','4');
+INSERT INTO pedido(id_alm,marca_alm,modelo,precio,cantidad) VALUES (5,5,5,'$700','5');

@@ -1,0 +1,55 @@
+
+1--Muestra clientes
+SELECT * FROM CLIENTES;
+
+2-- Agrupar por una columna
+SELECT NOMBRE FROM CLIENTES GROUP BY NOMBRE;
+ 
+3--Agrupar por columna y contar registros
+SELECT COUNT(NOMBRE) as alias FROM CLIENTES GROUP BY NOMBRE;
+
+4--Ordenar de forma ascendente
+SELECT * FROM CLIENTES ORDER BY NOMBRE ASC;
+
+5-- Ordenar de forma descendente
+SELECT * FROM PAISES ORDER BY PAIS DESC;
+ 
+6--Filtrando valores con la clausula WHERE:
+7- SELECT * FROM PRECIO_HABITACION WHERE PRECIO > 400;
+8-  SELECT * FROM PRECIO_HABITACION WHERE PRECIO < 400;
+9-  SELECT * FROM PRECIO_HABITACION WHERE PRECIO = 500;
+
+
+10- SELECT DESCRIPCION, FECHA, PRECIO FROM SERVICIOS;
+
+11- SELECT * FROM TIPO_HABITACION WHERE CAMAS = 2;
+
+12 --SE MUESTRAN DATOS DEL OBJETO SELECCIONADO
+SELECT NOMBRE, TELEFONO, PAIS FROM CLIENTES WHERE NOMBRE = 'DIDIER';
+
+13-SELECT COUNT(PAIS) AS "CANTIDAD DE CLIENTES" 
+FROM CLIENTES;
+
+14--En ocasiones no querremos comparar todo el campo con un texto exacto, sino ver si contiene un cierto texto (por ejemplo, porque sólo sepamos un apellido o parte de la calle). En ese caso, no compararíamos con el símbolo "igual" (=), sino que usaríamos la palabra "LIKE", y para las partes que no conozcamos usaremos el comodín "%", como en este ejemplo:
+
+SELECT PAIS, NOMBRE, DIRECCION FROM CLIENTES WHERE DIRECCION LIKE '%calle%';
+
+SELECT PAIS, NOMBRE, DIRECCION 
+FROM CLIENTES
+WHERE DIRECCION LIKE '%AVDA%'
+ORDER BY NOMBRE DESC, DIRECCION ASC;
+
+15- SELECT PAIS, NOMBRE, DIRECCION FROM CLIENTES WHERE NOMBRE LIKE '%L%';
+
+16- SELECT ID_T_HAB, PRECIO
+FROM PRECIO_HABITACION
+WHERE ID_T_HAB>=2
+
+17- SELECT NOMBRESERVICIO
+FROM TIPO_SERVICIO;
+
+
+
+
+
+http://www.nachocabanes.com/sql/curso/sql01.php

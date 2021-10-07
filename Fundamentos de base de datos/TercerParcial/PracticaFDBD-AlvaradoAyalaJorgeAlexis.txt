@@ -1,0 +1,401 @@
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 27
+Server version: 5.7.17-log MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database practica1;
+Query OK, 1 row affected (0.40 sec)
+
+mysql> use practica1;
+Database changed
+mysql> create table especie(
+    -> cod.especie varchar(30) not null,
+    -> nombreespecie varchar(20) not null,
+    -> tipo varchar(10) not null,
+    -> periodosmigratorios varchar(30),
+    -> caracteristicas generales varchar(30) not null,
+    -> primary key (cod.especie)
+    -> );
+ERROR 1103 (42000): Incorrect table name 'cod'
+mysql> create table especie(
+    -> cod_especie varchar(30) not null,
+    -> nombreespecie varchar(20) not null,
+    -> tipo varchar(10) not null,
+    -> periodosmigratorios varchar(30),
+    -> caracteristicas generales varchar(30) not null,
+    -> primary key (cod.especie)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'generales varchar(30) not null,
+primary key (cod.especie)
+)' at line 6
+mysql> create table especie(
+    -> cod_especie varchar(30) not null,
+    -> nombreespecie varchar(20) not null,
+    -> tipo varchar(10) not null,
+    -> periodosmigratorios varchar(30),
+    -> caracteristicas generales varchar(30) not null,
+    -> primary key (cod_especie)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'generales varchar(30) not null,
+primary key (cod_especie)
+)' at line 6
+mysql> create table especie(
+    -> cod_especie varchar(30) not null,
+    -> nombreespecie varchar(20) not null,
+    -> tipo varchar(10) not null,
+    -> periodosmigratorios varchar(30),
+    -> caracteristicasgenerales varchar(30) not null,
+    -> primary key (cod_especie)
+    -> );
+Query OK, 0 rows affected (1.00 sec)
+
+mysql> create table individuo(
+    ->   codigo_individuo varchar(20) not null,
+    ->   cod_especie varchar(30) not null,
+    ->   peso varchar(5) not null,
+    ->   dimenciones varchar(20),
+    ->   primary key (codigo_individuo),
+    ->   foreign key (cod_especie) references especie(cod_especie)
+    -> );
+Query OK, 0 rows affected (0.47 sec)
+
+mysql> create table torreta(
+    ->   cod_torreta varchar(20) not null,
+    ->   ubicacion varchar(30),
+    ->   nombre varchar(20) not null,
+    ->   primary key (cod_torreta)
+    -> );
+Query OK, 0 rows affected (0.33 sec)
+
+mysql>
+mysql> create table movimientos(
+    ->   cod_movimiento varchar(20) not null,
+    ->   codigo_individuo varchar(20) not null,
+    ->   cod_torreta varchar(20) not null,
+    ->   fecha date not null,
+    ->   hora varchar(10) not null,
+    ->   tipo varchar(10) not null,
+    ->   primary key (cod_movimiento),
+    ->   foreign key (cod_individuo) references individuo(codigo_individuo),
+    ->   foreign key (cod_torreta) references torreta(cod_torreta)
+    -> );
+ERROR 1072 (42000): Key column 'cod_individuo' doesn't exist in table
+mysql> create table movimientos(
+    ->   cod_movimiento varchar(20) not null,
+    ->   codigo_individuo varchar(20) not null,
+    ->   cod_torreta varchar(20) not null,
+    ->   fecha date not null,
+    ->   hora varchar(10) not null,
+    ->   tipo varchar(10) not null,
+    ->   primary key (cod_movimiento),
+    ->   foreign key (codigo_individuo) references individuo(codigo_individuo),
+    ->   foreign key (cod_torreta) references torreta(cod_torreta)
+    -> );
+Query OK, 0 rows affected (0.55 sec)
+
+mysql> create table informe(
+    ->   cod_informe varchar(20) not null,
+    ->   fecha date not null,
+    ->   primary key (cod_informe)
+    -> );
+Query OK, 0 rows affected (0.29 sec)
+
+mysql> create table biologos(
+    ->   cod_biologos varchar (20) not null,
+    ->   nombre varchar(15) not null,
+    ->   direccion varchar (20) not null,
+    ->   provincia varchar(15),
+    ->   fechadetitulacion date not null,
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 7
+mysql> create table biologos(
+    ->   cod_biologos varchar (20) not null,
+    ->   nombre varchar(15) not null,
+    ->   direccion varchar (20) not null,
+    ->   provincia varchar(15),
+    ->   fechadetitulacion date not null
+    -> );
+Query OK, 0 rows affected (0.53 sec)
+
+mysql> create table sonregistrados(
+    ->   cod_movimiento varchar(20) not null,
+    ->   cod_informe varchar(20) not null,
+    ->   foreign key (cod_movimiento) references movimientos(cod_movimiento),
+    ->   foreign key (cod_informe) references informe(cod_informe)
+    -> );
+Query OK, 0 rows affected (0.58 sec)
+
+mysql> create table reciben(
+    ->   cod_informe varchar(20) not null,
+    ->   cod_biologo varchar(20) not null,
+    ->   foreign key (cod_informe) references movimientos(cod_informe),
+    ->   foreign key (cod_biologo) references informe(cod_biologo)
+    -> );
+ERROR 1215 (HY000): Cannot add foreign key constraint
+mysql>   cod_informe varchar(20) not null,
+    ->   cod_biologo varchar(20) not null,
+    ->   foreign key (cod_informe) references movimientos(cod_informe),
+    ->   foreign key (cod_biologo) references informe(cod_biologo)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'cod_informe varchar(20) not null,
+  cod_biologo varchar(20) not null,
+  foreign ' at line 1
+mysql> create table reciben(
+    ->   cod_informe varchar(20) not null,
+    ->   cod_biologo varchar(20) not null,
+    ->   foreign key (cod_informe) references informe(cod_informe),
+    ->   foreign key (cod_biologo) references biologos(cod_biologo)
+    -> );
+ERROR 1215 (HY000): Cannot add foreign key constraint
+mysql> create table reciben(
+    ->   cod_informe varchar(20) not null,
+    ->   cod_biologo varchar(20) not null,
+    ->   foreign key (cod_informe) references informe(cod_informe),
+    ->   foreign key (cod_biologo) references biologos(cod_biologo)
+    -> );
+ERROR 1215 (HY000): Cannot add foreign key constraint
+mysql> create table reciben(
+    ->   cod_informe varchar(20) not null,
+    ->   cod_biologo varchar(20) not null,
+    ->   foreign key (cod_informe) references informe(cod_informe),
+    ->   foreign key (cod_biologo) references biologos(cod_biologo)
+    ->   engine=InnoDB;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'engine=InnoDB' at line 6
+mysql> );create table reciben(
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+    ->   cod_informe varchar(20) not null,
+    ->   cod_biologo varchar(20) not null,
+    ->   foreign key (cod_informe) references informe(cod_informe),
+    ->   foreign key (cod_biologo) references biologos(cod_biologo)
+    ->   engine=InnoDB
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'engine=InnoDB
+)' at line 6
+mysql> create table reciben(
+    ->   cod_informe varchar(20) not null,
+    ->   cod_biologo varchar(20) not null,
+    ->   foreign key (cod_informe) references informe(cod_informe),
+    ->   foreign key (cod_biologo) references biologos(cod_biologo)
+    -> )ENGINE=InnoDB;
+ERROR 1215 (HY000): Cannot add foreign key constraint
+mysql> create table reciben(
+    ->   cod_informe varchar(20) not null,
+    ->   cod_biologo varchar(20) not null,
+    ->   foreign key (cod_informe) references informe(cod_informe),
+    ->   foreign key (cod_biologo) references biologos(cod_biologo)
+    -> )engine=InnoDB;
+ERROR 1215 (HY000): Cannot add foreign key constraint
+mysql> create table reciben(
+    ->   cod_informe varchar(20) unsigned not null,
+    ->   cod_biologo varchar(20) unsigned not null,
+    ->   foreign key (cod_informe) references informe(cod_informe) ON DELETE CASCADE,
+    ->   foreign key (cod_biologo) references biologos(cod_biologo) ON DELETE CASCADE
+    -> )engine=InnoDB;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'unsigned not null,
+  cod_biologo varchar(20) unsigned not null,
+  foreign key (c' at line 2
+mysql>
+mysql> create table reciben(
+    ->   cod_informe varchar(20) unsigned not null,
+    ->   cod_biologo varchar(20) unsigned not null,
+    ->   INDEX reciben_FKIndex1(cod_informe),
+    ->   INDEX reciben_FKIndex2(cod_biologo),
+    ->   foreign key (cod_informe) references informe(cod_informe) ON DELETE CASCADE,
+    ->   foreign key (cod_biologo) references biologos(cod_biologo) ON DELETE CASCADE
+    -> )engine=InnoDB;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'unsigned not null,
+  cod_biologo varchar(20) unsigned not null,
+  INDEX reciben_' at line 2
+mysql> create table reciben(
+    ->   cod_informe varchar(20),
+    ->   cod_biologo varchar(20),
+    ->   foreign key (cod_informe) references informe(cod_informe),
+    ->   foreign key (cod_biologo) references biologos(cod_biologo)
+    -> )engine=InnoDB;
+ERROR 1215 (HY000): Cannot add foreign key constraint
+mysql> delete table biologos;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table biologos' at line 1
+mysql> drop table biologos;
+Query OK, 0 rows affected (0.33 sec)
+
+mysql> create table biologos(
+    ->   cod_biologos varchar (20) not null,
+    ->   nombre varchar(15) not null,
+    ->   direccion varchar (20) not null,
+    ->   provincia varchar(15),
+    ->   fechadetitulacion date not null,
+    ->   primary key (cod_biologos)
+    -> );
+Query OK, 0 rows affected (0.33 sec)
+
+mysql> create table reciben(
+    ->   cod_informe varchar(20) not null,
+    ->   cod_biologo varchar(20) not null,
+    ->   foreign key (cod_informe) references informe(cod_informe),
+    ->   foreign key (cod_biologo) references biologos(cod_biologo)
+    -> )engine=InnoDB;
+ERROR 1215 (HY000): Cannot add foreign key constraint
+mysql> create table reciben(
+    ->   cod_informe varchar(20) not null,
+    ->   cod_biologo varchar(20) not null,
+    ->   foreign key (cod_informe) references informe(cod_informe),
+    ->   foreign key (cod_biologos) references biologos(cod_biologos)
+    -> )engine=InnoDB;
+ERROR 1072 (42000): Key column 'cod_biologos' doesn't exist in table
+mysql>
+mysql> create table reciben(
+    ->   cod_informe varchar(20) not null,
+    ->   cod_biologo varchar(20) not null,
+    ->   foreign key (cod_informe) references informe(cod_informe),
+    ->   foreign key (cod_biologos) references biologos(cod_biologos)
+    -> );
+ERROR 1072 (42000): Key column 'cod_biologos' doesn't exist in table
+mysql> create table reciben(
+    ->   cod_informe varchar(20) not null,
+    ->   cod_biologos varchar(20) not null,
+    ->   foreign key (cod_informe) references informe(cod_informe),
+    ->   foreign key (cod_biologos) references biologos(cod_biologos)
+    -> );
+Query OK, 0 rows affected (0.34 sec)
+
+mysql>
+
+
+//practica_2
+
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 29
+Server version: 5.7.17-log MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database ejercicio2;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> use ejercicio2;
+Database changed
+mysql> ^C
+mysql> create table usuario(
+    ->   codigo varchar(20) not null,
+    ->   email varchar(30) not null,
+    ->   nombre varchar(15) not null,
+    ->   direccion varchar(30) not null,
+    ->   ciudad varchar(15) not null,
+    ->   pais varchar(15) not null,
+    ->   sexo varchar(10) not null,
+    ->   orientacionsexual varchar(10),
+    ->   password varchar(30) not null,
+    ->   primary key (codigo)
+    -> );
+Query OK, 0 rows affected (0.36 sec)
+
+mysql> create table gustos(
+    ->   codigo varchar(20) not null,
+    ->   ultimaactividad varchar(20) not null,
+    ->   tipo varchar(20) not null,
+    ->   parejaconlamismapreferencia varchar(7) not null,
+    ->   primary key (codigo)
+    -> );
+Query OK, 0 rows affected (0.43 sec)
+
+mysql> create table citas(
+    ->   codigo varchar(20) not null,
+    ->   quiencita varchar(20),
+    ->   lugar varchar(20),
+    ->   hora varchar(7),
+    ->   fracaso varchar(2),
+    ->   primary key (codigo)
+    -> );
+Query OK, 0 rows affected (0.55 sec)
+
+mysql> create table realiza(
+    ->   codigo-gustos varchar(20) unsigned not null,
+    ->   codigo-cita varchar(20) unsigned not null,
+    ->   foreign key (codigo-gustos) references gustos(codigo) ON DELETE CASCADE,
+    ->   foreign key (codigo-cita) references citas(codigo) ON DELETE CASCADE
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-gustos varchar(20) unsigned not null,
+  codigo-cita varchar(20) unsigned not nu' at line 2
+mysql> create table realiza(
+    ->   codigo_gustos varchar(20) unsigned not null,
+    ->   codigo_cita varchar(20) unsigned not null,
+    ->   foreign key (codigo_gustos) references gustos(codigo) ON DELETE CASCADE,
+    ->   foreign key (codigo_cita) references citas(codigo) ON DELETE CASCADE
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'unsigned not null,
+  codigo_cita varchar(20) unsigned not null,
+  foreign key (c' at line 2
+mysql> create table realiza(
+    ->   codigo_gustos varchar(20) unsigned not null,
+    ->   codigo_cita varchar(20) unsigned not null,
+    ->   foreign key (codigo_gustos) references gustos(codigo_gustos) ON DELETE CASCADE,
+    ->   foreign key (codigo_cita) references citas(codigo_cita) ON DELETE CASCADE
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'unsigned not null,
+  codigo_cita varchar(20) unsigned not null,
+  foreign key (c' at line 2
+mysql> drop table gustos;
+Query OK, 0 rows affected (0.21 sec)
+
+mysql> drop table citas;
+Query OK, 0 rows affected (0.22 sec)
+
+mysql> create table gustos(
+    ->   codigo_gustos varchar(20) not null,
+    ->   ultimaactividad varchar(20) not null,
+    ->   tipo varchar(20) not null,
+    ->   parejaconlamismapreferencia varchar(7) not null,
+    ->   primary key (codigo)
+    -> );
+ERROR 1072 (42000): Key column 'codigo' doesn't exist in table
+mysql> create table gustos(
+    ->   codigo_gustos varchar(20) not null,
+    ->   ultimaactividad varchar(20) not null,
+    ->   tipo varchar(20) not null,
+    ->   parejaconlamismapreferencia varchar(7) not null,
+    ->   primary key (codigo_gustos)
+    -> );
+Query OK, 0 rows affected (0.40 sec)
+
+mysql> create table citas(
+    ->   codigo_cita varchar(20) not null,
+    ->   quiencita varchar(20),
+    ->   lugar varchar(20),
+    ->   hora varchar(7),
+    ->   fracaso varchar(2),
+    ->   primary key (codigo_cita)
+    -> );
+Query OK, 0 rows affected (0.37 sec)
+
+mysql> create table realiza(
+    ->   codigo_gustos varchar(20) unsigned not null,
+    ->   codigo_cita varchar(20) unsigned not null,
+    ->   foreign key (codigo_gustos) references gustos(codigo_gustos) ON DELETE CASCADE,
+    ->   foreign key (codigo_cita) references citas(codigo_cita) ON DELETE CASCADE
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'unsigned not null,
+  codigo_cita varchar(20) unsigned not null,
+  foreign key (c' at line 2
+mysql> create table realiza(
+    ->   codigo_gustos varchar(20) not null,
+    ->   codigo_cita varchar(20) not null,
+    ->   foreign key (codigo_gustos) references gustos(codigo_gustos) ON DELETE CASCADE,
+    ->   foreign key (codigo_cita) references citas(codigo_cita) ON DELETE CASCADE
+    -> );
+Query OK, 0 rows affected (0.45 sec)
+
+mysql>

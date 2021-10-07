@@ -1,0 +1,841 @@
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 5
+Server version: 5.7.17-log MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> drop database hotel;
+ERROR 1008 (HY000): Can't drop database 'hotel'; database doesn't exist
+mysql> CREATE DATABASE HOTEL;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> USE HOTEL;
+Database changed
+mysql> CREATE TABLE PAISES (
+    ->   PAIS VARCHAR(20) NOT NULL,
+    ->   PRIMARY KEY ( PAIS )
+    -> );
+Query OK, 0 rows affected (0.30 sec)
+
+mysql> INSERT INTO PAISES VALUES('ALEMANIA');
+Query OK, 1 row affected (0.36 sec)
+
+mysql> INSERT INTO PAISES VALUES('BRASIL');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PAISES VALUES('COLOMBIA');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PAISES VALUES('ESPAÑA');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PAISES VALUES('FRANCIA');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PAISES VALUES('MÉXICO');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO PAISES VALUES('PORTUGAL');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PAISES VALUES('PUERTO RICO');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> CREATE TABLE CLIENTES (
+    ->    ID_CLIENTE VARCHAR(20) NOT NULL,
+    ->    PAIS VARCHAR(20) NOT NULL,
+    ->    NOMBRE VARCHAR(25) NOT NULL,
+    ->    APELLIDOP VARCHAR(25) NOT NULL,
+    ->    APELLIDOM VARCHAR(25),
+    ->    DIRECCION VARCHAR(50) NOT NULL,
+    ->    TELEFONO VARCHAR(15) NOT NULL,
+    ->    OBSERVACIONES VARCHAR(50),
+    ->    PRIMARY KEY (ID_CLIENTE),
+    ->    FOREIGN KEY (PAIS) REFERENCES PAISES (PAIS)
+    -> );
+Query OK, 0 rows affected (0.28 sec)
+
+mysql> INSERT INTO  CLIENTES  VALUES('12345', 'BRASIL', 'JOAO', 'TEIXEIRA', 'COSTA', 'AVDA PRINCESA ISABEL, 183, COPACABANA', '942344444', 'BUEN CLIENTE');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> INSERT INTO  CLIENTES  VALUES('44444', 'ESPAÑA', 'LUIS', 'GARCÍA', 'GARCÍA', 'CALLE MAYOR, 67 ', '942456444', NULL);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO  CLIENTES  VALUES('456789', 'FRANCIA', 'LUDOVIC', 'GIULY', 'BOURQUIN', '18 AVENUE ALSACEN COUR', '37890194', NULL);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO  CLIENTES  VALUES('223365', 'MÉXICO', 'JAVIER', 'SANTILLAN', 'PAREDES', 'COLIMA NO.12', '57575609', 'BUEN CLIENTE');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  CLIENTES  VALUES('44767', 'PORTUGAL', 'THIAGO', 'COELHO', 'DA SILVA', 'AVDA CONDE VALBO N° 30', '865788953', NULL);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  CLIENTES  VALUES('457689', 'FRANCIA', 'ETHAN', 'DE LA FONTAINE', 'BAUDIN', '2 BD SAINT MARTIN', '37865194', NULL);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO  CLIENTES  VALUES('765789', 'FRANCIA', 'DIDIER', 'COTÉ', 'BISSET', '115, RUE DE L´ABBÉ GROULT', '37777348', 'BUEN CLIENTE');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  CLIENTES  VALUES('12395', 'BRASIL', 'AIRTON', 'SARAVI', 'CUNHA', 'PLAZA PIO X, 119, RIO DE JANEIRO', '942456444', NULL);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  CLIENTES  VALUES('787779', 'COLOMBIA', 'PEDRO CLAVER', 'GARCÍA', 'RODRÍGUEZ', 'CARRERA 106 A NO. 18-51 BARR. CD. JARDIN, CALI', '7459093', NULL);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  CLIENTES  VALUES('787745', 'COLOMBIA', 'MOISES ABSALÓN', 'LÓPEZ', 'GONZÁLEZ', 'CRA 69 NO 49 - 06, MEDELLÍN', '2480600', NULL);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> CREATE TABLE  TEMPORADA  (
+    ->    ID_TEMP INT NOT NULL,
+    ->    FECHAINICIO DATETIME NOT NULL,
+    ->    FECHAFINAL DATETIME NOT NULL,
+    ->    TIPO CHAR(1) NOT NULL,
+    ->    PRIMARY KEY  (ID_TEMP)
+    -> );
+Query OK, 0 rows affected (0.41 sec)
+
+mysql> INSERT INTO TEMPORADA VALUES(1,01/01/2017, 31/03/2017,'B');
+Query OK, 1 row affected (0.16 sec)
+
+mysql> INSERT INTO TEMPORADA VALUES(2,01/042017, 31/05/2017,'M');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO TEMPORADA VALUES(3,01/06/2017, 31/08/2017,'A');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO TEMPORADA VALUES(4,01/09/2017, 31/10/2017,'B');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO TEMPORADA VALUES(5,01/11/2017, 31/12/2017,'A');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> CREATE TABLE TIPO_HABITACION (
+    ->   ID_T_HAB INT NOT NULL,
+    ->   CAMAS INT NOT NULL,
+    ->   EXTERIOR VARCHAR(2) NOT NULL CHECK (EXTERIOR IN ('SI', 'NO')),
+    ->   SALON VARCHAR(2) NOT NULL CHECK (SALON IN ('SI', 'NO')),
+    ->   TERRAZA VARCHAR(2) NOT NULL CHECK (TERRAZA IN ('SI', 'NO')),
+    ->   PRIMARY KEY (ID_T_HAB)
+    -> );
+Query OK, 0 rows affected (0.33 sec)
+
+mysql> INSERT INTO TIPO_HABITACION VALUES(1, 1, 'SI', 'NO', 'NO');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO TIPO_HABITACION VALUES(2, 2, 'SI', 'NO', 'NO');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO TIPO_HABITACION VALUES(3, 3, 'SI', 'NO', 'NO');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO TIPO_HABITACION VALUES(4, 1, 'SI', 'SI', 'NO');
+Query OK, 1 row affected (0.03 sec)
+
+mysql>
+mysql> CREATE TABLE PRECIO_HABITACION (
+    ->    IDPRECIO INT NOT NULL,
+    ->    PRECIO DECIMAL(6,2) NOT NULL,
+    ->    ID_TEMP INT NOT NULL,
+    ->    ID_T_HAB INT NOT NULL,
+    ->    PRIMARY KEY  (IDPRECIO),
+    ->    FOREIGN KEY (ID_TEMP) REFERENCES TEMPORADA(ID_TEMP),
+    ->    FOREIGN KEY (ID_T_HAB) REFERENCES TIPO_HABITACION(ID_T_HAB)
+    -> );
+Query OK, 0 rows affected (0.56 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(1, 300, 1, 1);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(2, 350, 2, 1);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(3, 400, 3, 1);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(4, 350, 4, 1);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(5, 300, 5, 1);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(6, 350, 1, 2);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(7, 400, 2, 2);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(8, 450, 3, 2);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(9, 400, 4, 2);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(10, 350, 5, 2);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(11, 400, 1, 3);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(12, 450, 2, 3);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(13, 500, 3, 3);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(14, 450, 4, 3);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(15, 400, 5, 3);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(16, 500, 1, 4);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(17, 550, 2, 4);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(18, 600, 3, 4);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(19, 550, 4, 4);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO PRECIO_HABITACION VALUES(20, 500, 5, 4);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> CREATE TABLE HABITACIONES (
+    ->   NUMHABIT INT  NOT NULL,
+    ->   ID_T_HAB INT NOT NULL,
+    ->   PRIMARY KEY (NUMHABIT),
+    ->   FOREIGN KEY (ID_T_HAB) REFERENCES TIPO_HABITACION (ID_T_HAB)
+    -> );
+Query OK, 0 rows affected (0.36 sec)
+
+mysql> INSERT INTO HABITACIONES VALUES(101, 1);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> INSERT INTO HABITACIONES VALUES(102, 1);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO HABITACIONES VALUES(103, 1);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO HABITACIONES VALUES(104, 2);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO HABITACIONES VALUES(105, 2);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO HABITACIONES VALUES(106, 3);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO HABITACIONES VALUES(107, 4);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> CREATE TABLE TIPO_SERVICIO (
+    ->   NOMBRESERVICIO VARCHAR(30) NOT NULL,
+    ->   PRIMARY KEY (NOMBRESERVICIO)
+    -> );
+Query OK, 0 rows affected (0.28 sec)
+
+mysql> INSERT INTO TIPO_SERVICIO VALUES('PARKING PRIVADO');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO TIPO_SERVICIO VALUES('PLANCHADO');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO TIPO_SERVICIO VALUES('LAVANDERIA Y PLANCHADO');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO TIPO_SERVICIO VALUES('LAVADO Y PLANCHADO EN SECO');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO TIPO_SERVICIO VALUES('ALIMENTOS & BEBIDAS');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO TIPO_SERVICIO VALUES('SERVICIO DE HABITACIONES 24H');
+Query OK, 1 row affected (0.17 sec)
+
+mysql> CREATE TABLE SERVICIOS (
+    ->    IDSERVICIOS INT NOT NULL,
+    ->    NOMBRESERVICIO VARCHAR(30) NOT NULL,
+    ->    DESCRIPCION VARCHAR(60) NOT NULL,
+    ->    PRECIO DECIMAL(6,2) NOT NULL,
+    ->    IVA NUMERIC(5,2) NOT NULL,
+    ->    FECHA DATETIME NOT NULL,
+    ->    PRIMARY KEY (IDSERVICIOS),
+    ->    FOREIGN KEY (NOMBRESERVICIO) REFERENCES TIPO_SERVICIO (NOMBRESERVICIO)
+    -> );
+Query OK, 0 rows affected (0.28 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(1, 'PARKING PRIVADO', 'PENSIÓN POR DIA', 40, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(2, 'PLANCHADO', 'PRENDA SENCILLA', 35, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(3, 'PLANCHADO', 'PRENDA ESPECIAL', 66, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(4, 'LAVANDERIA Y PLANCHADO', 'CAMISA', 60, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(5, 'LAVANDERIA Y PLANCHADO', 'FALDA', 60, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(6, 'LAVANDERIA Y PLANCHADO', 'PANTALÓN', 60, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(7, 'LAVANDERIA Y PLANCHADO', 'FALDA LARGA', 65, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(8, 'LAVANDERIA Y PLANCHADO', 'CHALECO', 60, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(9, 'LAVANDERIA Y PLANCHADO', 'BLUSA', 60, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(10, 'LAVANDERIA Y PLANCHADO', 'BLAZER', 60, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(11, 'LAVANDERIA Y PLANCHADO', 'VESTIDO SENCILLO', 95, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(12, 'LAVANDERIA Y PLANCHADO', 'SHORT', 60, 7, '01/01/2017');
+Query OK, 1 row affected, 1 warning (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(13, 'LAVADO Y PLANCHADO EN SECO', 'SACO DE LINO', 60, 7, '01/01/2017');
+Query OK, 1 row affected, 1 warning (0.08 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(14, 'LAVADO Y PLANCHADO EN SECO', 'VESTIDO DE NOCHE', 135, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(15, 'LAVADO Y PLANCHADO EN SECO', 'TRAJE (SACO Y PANTALÓN)', 119, 7, '2017/01/01');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(16, 'LAVADO Y PLANCHADO EN SECO', 'VESTIDO CON PEDRERÍA', 245, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(17, 'LAVADO Y PLANCHADO EN SECO', 'CORBATA', 60, 7, '2017/01/01');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(18, 'LAVADO Y PLANCHADO EN SECO', 'SWEATER', 65, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(19, 'LAVADO Y PLANCHADO EN SECO', 'CHAMARRA', 160, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(20, 'LAVADO Y PLANCHADO EN SECO', 'SWEATER LARGO', 75, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(21, 'LAVADO Y PLANCHADO EN SECO', 'ABRIGO CORTO', 95, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(22, 'LAVADO Y PLANCHADO EN SECO', 'ABRIGO CORTO', 95, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(23, 'ALIMENTOS & BEBIDAS', 'CONTINENTAL: DESAYUNO LIGERO', 75, 7, '2017/01/01');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(24, 'ALIMENTOS & BEBIDAS', 'BUFFET: DESAYUNO AMERICANO AUTOSERVICIO', 100,7,'2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(25, 'ALIMENTOS & BEBIDAS', 'HALF BOARD: DESAYUNO Y COMIDA O CENA', 220, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(26, 'ALIMENTOS & BEBIDAS', 'FULL BOARD: DESAYUNO, COMIDA Y CENA', 310, 7, '2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(27, 'ALIMENTOS & BEBIDAS', 'ALL INCLUSIVE: TODAS LAS COMIDAS Y BEBIDAS INCLUIDAS',400,7,'2017/01/01');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  SERVICIOS VALUES(28, 'SERVICIO DE HABITACIONES 24H', 'COMPRA ARTICULOS VARIOS', 20, 7, '2017/01/01');
+Query OK, 1 row affected (0.27 sec)
+
+mysql> CREATE TABLE  RESERVA_HABITAC (
+    ->    IDRESERVA INT NOT NULL,
+    ->    FECHAENTRADA DATETIME NOT NULL,
+    ->    FECHASALIDA  DATETIME NOT NULL,
+    ->    IVA   NUMERIC(5,2) NOT NULL,
+    ->    NUMHABIT  INT  NOT NULL,
+    ->    ID_CLIENTE VARCHAR(20) NOT NULL,
+    ->    PRIMARY KEY (IDRESERVA),
+    ->    FOREIGN KEY (ID_CLIENTE) REFERENCES CLIENTES (ID_CLIENTE),
+    ->    FOREIGN KEY (NUMHABIT) REFERENCES HABITACIONES (NUMHABIT)
+    -> );
+Query OK, 0 rows affected (0.38 sec)
+
+mysql> INSERT INTO  RESERVA_HABITAC VALUES(1,'20107/03/15', '2017/03/25', 0.16, 101, '765789');
+Query OK, 1 row affected, 1 warning (0.08 sec)
+
+mysql> INSERT INTO  RESERVA_HABITAC VALUES(2,'2017/03/15', '2017/03/25',0.16, 102, '12345');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO  RESERVA_HABITAC VALUES(3,'2017/02/16', '2017/02/21', 0.16, 103, '12345');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  RESERVA_HABITAC VALUES(4,'2017/03/16', '2017/03/21', 0.16, 104, '44767');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  RESERVA_HABITAC VALUES(5,'2017/04/16', '2017/04/21', 0.16, 105, '44767');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  RESERVA_HABITAC VALUES(6,'2017/03/16', '2017/03/21', 0.16, 106, '12395');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  RESERVA_HABITAC VALUES(7,'2017/05/16', '2017/05/21', 0.16, 107, '44444');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> CREATE TABLE GASTOS (
+    ->    IDGASTOS INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    ->    IDRESERVA INT NOT NULL,
+    ->    IDSERVICIOS  INT NOT NULL,
+    ->    FECHA  DATETIME NOT NULL,
+    ->    CANTIDAD  INT NOT NULL,
+    ->    PRECIO INT NOT NULL,
+    ->    PRIMARY KEY (IDGASTOS),
+    ->    FOREIGN KEY (IDRESERVA) REFERENCES RESERVA_HABITAC (IDRESERVA),
+    ->    FOREIGN KEY (IDSERVICIOS) REFERENCES SERVICIOS (IDSERVICIOS)
+    -> );
+Query OK, 0 rows affected (0.32 sec)
+
+mysql> INSERT INTO GASTOS (IDRESERVA, IDSERVICIOS, FECHA, CANTIDAD, PRECIO) VALUES(1, 1, '2017/03/15', 1, 160);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> INSERT INTO GASTOS (IDRESERVA, IDSERVICIOS, FECHA, CANTIDAD, PRECIO) VALUES(1, 8, '2017/03/15' , 1, 100);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO GASTOS (IDRESERVA, IDSERVICIOS, FECHA, CANTIDAD, PRECIO) VALUES(2, 2, '2017/03/15' , 1, 200);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> SELECT * FROM CLIENTES;
++------------+----------+-----------------+----------------+------------+------------------------------------------------+-----------+---------------+
+| ID_CLIENTE | PAIS     | NOMBRE          | APELLIDOP      | APELLIDOM  | DIRECCION                                      | TELEFONO  | OBSERVACIONES |
++------------+----------+-----------------+----------------+------------+------------------------------------------------+-----------+---------------+
+| 12345      | BRASIL   | JOAO            | TEIXEIRA       | COSTA      | AVDA PRINCESA ISABEL, 183, COPACABANA          | 942344444 | BUEN CLIENTE  |
+| 12395      | BRASIL   | AIRTON          | SARAVI         | CUNHA      | PLAZA PIO X, 119, RIO DE JANEIRO               | 942456444 | NULL          |
+| 223365     | MÉXICO   | JAVIER          | SANTILLAN      | PAREDES    | COLIMA NO.12                                   | 57575609  | BUEN CLIENTE  |
+| 44444      | ESPAÑA   | LUIS            | GARCÍA         | GARCÍA     | CALLE MAYOR, 67                                | 942456444 | NULL          |
+| 44767      | PORTUGAL | THIAGO          | COELHO         | DA SILVA   | AVDA CONDE VALBO N° 30                         | 865788953 | NULL          |
+| 456789     | FRANCIA  | LUDOVIC         | GIULY          | BOURQUIN   | 18 AVENUE ALSACEN COUR                         | 37890194  | NULL          |
+| 457689     | FRANCIA  | ETHAN           | DE LA FONTAINE | BAUDIN     | 2 BD SAINT MARTIN                              | 37865194  | NULL          |
+| 765789     | FRANCIA  | DIDIER          | COTÉ           | BISSET     | 115, RUE DE L´ABBÉ GROULT                      | 37777348  | BUEN CLIENTE  |
+| 787745     | COLOMBIA | MOISES ABSALÓN  | LÓPEZ          | GONZÁLEZ   | CRA 69 NO 49 - 06, MEDELLÍN                    | 2480600   | NULL          |
+| 787779     | COLOMBIA | PEDRO CLAVER    | GARCÍA         | RODRÍGUEZ  | CARRERA 106 A NO. 18-51 BARR. CD. JARDIN, CALI | 7459093   | NULL          |
++------------+----------+-----------------+----------------+------------+------------------------------------------------+-----------+---------------+
+10 rows in set (0.03 sec)
+
+mysql> SELECT NOMBRE FROM CLIENTES GROUP BY NOMBRE;
++-----------------+
+| NOMBRE          |
++-----------------+
+| AIRTON          |
+| DIDIER          |
+| ETHAN           |
+| JAVIER          |
+| JOAO            |
+| LUDOVIC         |
+| LUIS            |
+| MOISES ABSALÓN  |
+| PEDRO CLAVER    |
+| THIAGO          |
++-----------------+
+10 rows in set (0.05 sec)
+
+mysql> SELECT COUNT(NOMBRE) as alias FROM CLIENTES GROUP BY NOMBRE;
++-------+
+| alias |
++-------+
+|     1 |
+|     1 |
+|     1 |
+|     1 |
+|     1 |
+|     1 |
+|     1 |
+|     1 |
+|     1 |
+|     1 |
++-------+
+10 rows in set (0.03 sec)
+
+mysql> SELECT * FROM CLIENTES ORDER BY NOMBRE ASC;
++------------+----------+-----------------+----------------+------------+------------------------------------------------+-----------+---------------+
+| ID_CLIENTE | PAIS     | NOMBRE          | APELLIDOP      | APELLIDOM  | DIRECCION                                      | TELEFONO  | OBSERVACIONES |
++------------+----------+-----------------+----------------+------------+------------------------------------------------+-----------+---------------+
+| 12395      | BRASIL   | AIRTON          | SARAVI         | CUNHA      | PLAZA PIO X, 119, RIO DE JANEIRO               | 942456444 | NULL          |
+| 765789     | FRANCIA  | DIDIER          | COTÉ           | BISSET     | 115, RUE DE L´ABBÉ GROULT                      | 37777348  | BUEN CLIENTE  |
+| 457689     | FRANCIA  | ETHAN           | DE LA FONTAINE | BAUDIN     | 2 BD SAINT MARTIN                              | 37865194  | NULL          |
+| 223365     | MÉXICO   | JAVIER          | SANTILLAN      | PAREDES    | COLIMA NO.12                                   | 57575609  | BUEN CLIENTE  |
+| 12345      | BRASIL   | JOAO            | TEIXEIRA       | COSTA      | AVDA PRINCESA ISABEL, 183, COPACABANA          | 942344444 | BUEN CLIENTE  |
+| 456789     | FRANCIA  | LUDOVIC         | GIULY          | BOURQUIN   | 18 AVENUE ALSACEN COUR                         | 37890194  | NULL          |
+| 44444      | ESPAÑA   | LUIS            | GARCÍA         | GARCÍA     | CALLE MAYOR, 67                                | 942456444 | NULL          |
+| 787745     | COLOMBIA | MOISES ABSALÓN  | LÓPEZ          | GONZÁLEZ   | CRA 69 NO 49 - 06, MEDELLÍN                    | 2480600   | NULL          |
+| 787779     | COLOMBIA | PEDRO CLAVER    | GARCÍA         | RODRÍGUEZ  | CARRERA 106 A NO. 18-51 BARR. CD. JARDIN, CALI | 7459093   | NULL          |
+| 44767      | PORTUGAL | THIAGO          | COELHO         | DA SILVA   | AVDA CONDE VALBO N° 30                         | 865788953 | NULL          |
++------------+----------+-----------------+----------------+------------+------------------------------------------------+-----------+---------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT * FROM PAISES ORDER BY PAIS DESC;
++-------------+
+| PAIS        |
++-------------+
+| PUERTO RICO |
+| PORTUGAL    |
+| MÉXICO      |
+| FRANCIA     |
+| ESPAÑA      |
+| COLOMBIA    |
+| BRASIL      |
+| ALEMANIA    |
++-------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT * FROM PRECIO_HABITACION WHERE PRECIO > 400;
++----------+--------+---------+----------+
+| IDPRECIO | PRECIO | ID_TEMP | ID_T_HAB |
++----------+--------+---------+----------+
+|        8 | 450.00 |       3 |        2 |
+|       12 | 450.00 |       2 |        3 |
+|       13 | 500.00 |       3 |        3 |
+|       14 | 450.00 |       4 |        3 |
+|       16 | 500.00 |       1 |        4 |
+|       17 | 550.00 |       2 |        4 |
+|       18 | 600.00 |       3 |        4 |
+|       19 | 550.00 |       4 |        4 |
+|       20 | 500.00 |       5 |        4 |
++----------+--------+---------+----------+
+9 rows in set (0.05 sec)
+
+mysql> SELECT * FROM PRECIO_HABITACION WHERE PRECIO < 400;
++----------+--------+---------+----------+
+| IDPRECIO | PRECIO | ID_TEMP | ID_T_HAB |
++----------+--------+---------+----------+
+|        1 | 300.00 |       1 |        1 |
+|        2 | 350.00 |       2 |        1 |
+|        4 | 350.00 |       4 |        1 |
+|        5 | 300.00 |       5 |        1 |
+|        6 | 350.00 |       1 |        2 |
+|       10 | 350.00 |       5 |        2 |
++----------+--------+---------+----------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM PRECIO_HABITACION WHERE PRECIO = 500;
++----------+--------+---------+----------+
+| IDPRECIO | PRECIO | ID_TEMP | ID_T_HAB |
++----------+--------+---------+----------+
+|       13 | 500.00 |       3 |        3 |
+|       16 | 500.00 |       1 |        4 |
+|       20 | 500.00 |       5 |        4 |
++----------+--------+---------+----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT DESCRIPCION, FECHA, PRECIO FROM SERVICIOS;
++------------------------------------------------------+---------------------+--------+
+| DESCRIPCION                                          | FECHA               | PRECIO |
++------------------------------------------------------+---------------------+--------+
+| PENSIÓN POR DIA                                      | 2017-01-01 00:00:00 |  40.00 |
+| PRENDA SENCILLA                                      | 2017-01-01 00:00:00 |  35.00 |
+| PRENDA ESPECIAL                                      | 2017-01-01 00:00:00 |  66.00 |
+| CAMISA                                               | 2017-01-01 00:00:00 |  60.00 |
+| FALDA                                                | 2017-01-01 00:00:00 |  60.00 |
+| PANTALÓN                                             | 2017-01-01 00:00:00 |  60.00 |
+| FALDA LARGA                                          | 2017-01-01 00:00:00 |  65.00 |
+| CHALECO                                              | 2017-01-01 00:00:00 |  60.00 |
+| BLUSA                                                | 2017-01-01 00:00:00 |  60.00 |
+| BLAZER                                               | 2017-01-01 00:00:00 |  60.00 |
+| VESTIDO SENCILLO                                     | 2017-01-01 00:00:00 |  95.00 |
+| SHORT                                                | 0000-00-00 00:00:00 |  60.00 |
+| SACO DE LINO                                         | 0000-00-00 00:00:00 |  60.00 |
+| VESTIDO DE NOCHE                                     | 2017-01-01 00:00:00 | 135.00 |
+| TRAJE (SACO Y PANTALÓN)                              | 2017-01-01 00:00:00 | 119.00 |
+| VESTIDO CON PEDRERÍA                                 | 2017-01-01 00:00:00 | 245.00 |
+| CORBATA                                              | 2017-01-01 00:00:00 |  60.00 |
+| SWEATER                                              | 2017-01-01 00:00:00 |  65.00 |
+| CHAMARRA                                             | 2017-01-01 00:00:00 | 160.00 |
+| SWEATER LARGO                                        | 2017-01-01 00:00:00 |  75.00 |
+| ABRIGO CORTO                                         | 2017-01-01 00:00:00 |  95.00 |
+| ABRIGO CORTO                                         | 2017-01-01 00:00:00 |  95.00 |
+| CONTINENTAL: DESAYUNO LIGERO                         | 2017-01-01 00:00:00 |  75.00 |
+| BUFFET: DESAYUNO AMERICANO AUTOSERVICIO              | 2017-01-01 00:00:00 | 100.00 |
+| HALF BOARD: DESAYUNO Y COMIDA O CENA                 | 2017-01-01 00:00:00 | 220.00 |
+| FULL BOARD: DESAYUNO, COMIDA Y CENA                  | 2017-01-01 00:00:00 | 310.00 |
+| ALL INCLUSIVE: TODAS LAS COMIDAS Y BEBIDAS INCLUIDAS | 2017-01-01 00:00:00 | 400.00 |
+| COMPRA ARTICULOS VARIOS                              | 2017-01-01 00:00:00 |  20.00 |
++------------------------------------------------------+---------------------+--------+
+28 rows in set (0.00 sec)
+
+mysql> SELECT * FROM TIPO_HABITACION WHERE CAMAS = 2;
++----------+-------+----------+-------+---------+
+| ID_T_HAB | CAMAS | EXTERIOR | SALON | TERRAZA |
++----------+-------+----------+-------+---------+
+|        2 |     2 | SI       | NO    | NO      |
++----------+-------+----------+-------+---------+
+1 row in set (0.02 sec)
+
+mysql> SELECT NOMBRE, TELEFONO, PAIS FROM CLIENTES WHERE NOMBRE = 'DIDIER';
++--------+----------+---------+
+| NOMBRE | TELEFONO | PAIS    |
++--------+----------+---------+
+| DIDIER | 37777348 | FRANCIA |
++--------+----------+---------+
+1 row in set (0.00 sec)
+
+mysql> FROM CLIENTES WHERE PAIS = ("BRAZIL");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM CLIENTES WHERE PAIS = ("BRAZIL")' at line 1
+mysql> SELECT COUNT(PAIS) AS "CANTIDAD DE CLIENTES"
+    -> FROM CLIENTES;
++----------------------+
+| CANTIDAD DE CLIENTES |
++----------------------+
+|                   10 |
++----------------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT * FROM CLIENTES;
++------------+----------+-----------------+----------------+------------+------------------------------------------------+-----------+---------------+
+| ID_CLIENTE | PAIS     | NOMBRE          | APELLIDOP      | APELLIDOM  | DIRECCION                                      | TELEFONO  | OBSERVACIONES |
++------------+----------+-----------------+----------------+------------+------------------------------------------------+-----------+---------------+
+| 12345      | BRASIL   | JOAO            | TEIXEIRA       | COSTA      | AVDA PRINCESA ISABEL, 183, COPACABANA          | 942344444 | BUEN CLIENTE  |
+| 12395      | BRASIL   | AIRTON          | SARAVI         | CUNHA      | PLAZA PIO X, 119, RIO DE JANEIRO               | 942456444 | NULL          |
+| 223365     | MÉXICO   | JAVIER          | SANTILLAN      | PAREDES    | COLIMA NO.12                                   | 57575609  | BUEN CLIENTE  |
+| 44444      | ESPAÑA   | LUIS            | GARCÍA         | GARCÍA     | CALLE MAYOR, 67                                | 942456444 | NULL          |
+| 44767      | PORTUGAL | THIAGO          | COELHO         | DA SILVA   | AVDA CONDE VALBO N° 30                         | 865788953 | NULL          |
+| 456789     | FRANCIA  | LUDOVIC         | GIULY          | BOURQUIN   | 18 AVENUE ALSACEN COUR                         | 37890194  | NULL          |
+| 457689     | FRANCIA  | ETHAN           | DE LA FONTAINE | BAUDIN     | 2 BD SAINT MARTIN                              | 37865194  | NULL          |
+| 765789     | FRANCIA  | DIDIER          | COTÉ           | BISSET     | 115, RUE DE L´ABBÉ GROULT                      | 37777348  | BUEN CLIENTE  |
+| 787745     | COLOMBIA | MOISES ABSALÓN  | LÓPEZ          | GONZÁLEZ   | CRA 69 NO 49 - 06, MEDELLÍN                    | 2480600   | NULL          |
+| 787779     | COLOMBIA | PEDRO CLAVER    | GARCÍA         | RODRÍGUEZ  | CARRERA 106 A NO. 18-51 BARR. CD. JARDIN, CALI | 7459093   | NULL          |
++------------+----------+-----------------+----------------+------------+------------------------------------------------+-----------+---------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT PAIS, NOMBRE, DIRECCION FROM CLIENTES WHERE DIRECCION LIKE '%calle%';
++---------+--------+------------------+
+| PAIS    | NOMBRE | DIRECCION        |
++---------+--------+------------------+
+| ESPAÑA  | LUIS   | CALLE MAYOR, 67  |
++---------+--------+------------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT PAIS, NOMBRE, DIRECCION
+    -> FROM CLIENTES
+    -> WHERE DIRECCION LIKE '%AVDA%'
+    -> ORDER BY NOMBRE, DIRECCION ASC;
++----------+--------+---------------------------------------+
+| PAIS     | NOMBRE | DIRECCION                             |
++----------+--------+---------------------------------------+
+| BRASIL   | JOAO   | AVDA PRINCESA ISABEL, 183, COPACABANA |
+| PORTUGAL | THIAGO | AVDA CONDE VALBO N° 30                |
++----------+--------+---------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT PAIS, NOMBRE, DIRECCION
+    -> FROM CLIENTES
+    -> WHERE DIRECCION LIKE '%AVDA%'
+    -> ORDER BY NOMBRE DESC, DIRECCION ASC;
++----------+--------+---------------------------------------+
+| PAIS     | NOMBRE | DIRECCION                             |
++----------+--------+---------------------------------------+
+| PORTUGAL | THIAGO | AVDA CONDE VALBO N° 30                |
+| BRASIL   | JOAO   | AVDA PRINCESA ISABEL, 183, COPACABANA |
++----------+--------+---------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT PAIS, NOMBRE, DIRECCION FROM CLIENTES WHERE NOMBRE LIKE '%L%';
++----------+-----------------+------------------------------------------------+
+| PAIS     | NOMBRE          | DIRECCION                                      |
++----------+-----------------+------------------------------------------------+
+| ESPAÑA   | LUIS            | CALLE MAYOR, 67                                |
+| FRANCIA  | LUDOVIC         | 18 AVENUE ALSACEN COUR                         |
+| COLOMBIA | MOISES ABSALÓN  | CRA 69 NO 49 - 06, MEDELLÍN                    |
+| COLOMBIA | PEDRO CLAVER    | CARRERA 106 A NO. 18-51 BARR. CD. JARDIN, CALI |
++----------+-----------------+------------------------------------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT ID_T_HAB, PRECIO
+    -> FROM PRECIO_HABITACION
+    -> WHERE ID_T_HAB>=2
+    -> ;
++----------+--------+
+| ID_T_HAB | PRECIO |
++----------+--------+
+|        2 | 350.00 |
+|        2 | 400.00 |
+|        2 | 450.00 |
+|        2 | 400.00 |
+|        2 | 350.00 |
+|        3 | 400.00 |
+|        3 | 450.00 |
+|        3 | 500.00 |
+|        3 | 450.00 |
+|        3 | 400.00 |
+|        4 | 500.00 |
+|        4 | 550.00 |
+|        4 | 600.00 |
+|        4 | 550.00 |
+|        4 | 500.00 |
++----------+--------+
+15 rows in set (0.03 sec)
+
+mysql> SELECT NOMBRESERVICIO
+    -> FROM TIPO_SERVICIO;
++------------------------------+
+| NOMBRESERVICIO               |
++------------------------------+
+| ALIMENTOS & BEBIDAS          |
+| LAVADO Y PLANCHADO EN SECO   |
+| LAVANDERIA Y PLANCHADO       |
+| PARKING PRIVADO              |
+| PLANCHADO                    |
+| SERVICIO DE HABITACIONES 24H |
++------------------------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT NOMBRESERVICIO
+    -> FROM TIPO_SERVICIO;
++------------------------------+
+| NOMBRESERVICIO               |
++------------------------------+
+| ALIMENTOS & BEBIDAS          |
+| LAVADO Y PLANCHADO EN SECO   |
+| LAVANDERIA Y PLANCHADO       |
+| PARKING PRIVADO              |
+| PLANCHADO                    |
+| SERVICIO DE HABITACIONES 24H |
++------------------------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT NOMBRESERVICIO
+    -> FROM TIPO_SERVICIO;
++------------------------------+
+| NOMBRESERVICIO               |
++------------------------------+
+| ALIMENTOS & BEBIDAS          |
+| LAVADO Y PLANCHADO EN SECO   |
+| LAVANDERIA Y PLANCHADO       |
+| PARKING PRIVADO              |
+| PLANCHADO                    |
+| SERVICIO DE HABITACIONES 24H |
++------------------------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT NOMBRESERVICIO
+    -> FROM TIPO_SERVICIO;
++------------------------------+
+| NOMBRESERVICIO               |
++------------------------------+
+| ALIMENTOS & BEBIDAS          |
+| LAVADO Y PLANCHADO EN SECO   |
+| LAVANDERIA Y PLANCHADO       |
+| PARKING PRIVADO              |
+| PLANCHADO                    |
+| SERVICIO DE HABITACIONES 24H |
++------------------------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT NOMBRESERVICIO
+    -> FROM TIPO_SERVICIO;
++------------------------------+
+| NOMBRESERVICIO               |
++------------------------------+
+| ALIMENTOS & BEBIDAS          |
+| LAVADO Y PLANCHADO EN SECO   |
+| LAVANDERIA Y PLANCHADO       |
+| PARKING PRIVADO              |
+| PLANCHADO                    |
+| SERVICIO DE HABITACIONES 24H |
++------------------------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT NOMBRESERVICIO
+    -> FROM TIPO_SERVICIO;
++------------------------------+
+| NOMBRESERVICIO               |
++------------------------------+
+| ALIMENTOS & BEBIDAS          |
+| LAVADO Y PLANCHADO EN SECO   |
+| LAVANDERIA Y PLANCHADO       |
+| PARKING PRIVADO              |
+| PLANCHADO                    |
+| SERVICIO DE HABITACIONES 24H |
++------------------------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT NOMBRESERVICIO
+    -> FROM TIPO_SERVICIO;
++------------------------------+
+| NOMBRESERVICIO               |
++------------------------------+
+| ALIMENTOS & BEBIDAS          |
+| LAVADO Y PLANCHADO EN SECO   |
+| LAVANDERIA Y PLANCHADO       |
+| PARKING PRIVADO              |
+| PLANCHADO                    |
+| SERVICIO DE HABITACIONES 24H |
++------------------------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT NOMBRESERVICIO
+    -> FROM TIPO_SERVICIO;
++------------------------------+
+| NOMBRESERVICIO               |
++------------------------------+
+| ALIMENTOS & BEBIDAS          |
+| LAVADO Y PLANCHADO EN SECO   |
+| LAVANDERIA Y PLANCHADO       |
+| PARKING PRIVADO              |
+| PLANCHADO                    |
+| SERVICIO DE HABITACIONES 24H |
++------------------------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT NOMBRESERVICIO
+    -> FROM TIPO_SERVICIO;
++------------------------------+
+| NOMBRESERVICIO               |
++------------------------------+
+| ALIMENTOS & BEBIDAS          |
+| LAVADO Y PLANCHADO EN SECO   |
+| LAVANDERIA Y PLANCHADO       |
+| PARKING PRIVADO              |
+| PLANCHADO                    |
+| SERVICIO DE HABITACIONES 24H |
++------------------------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT NOMBRESERVICIO
+    -> FROM TIPO_SERVICIO;
++------------------------------+
+| NOMBRESERVICIO               |
++------------------------------+
+| ALIMENTOS & BEBIDAS          |
+| LAVADO Y PLANCHADO EN SECO   |
+| LAVANDERIA Y PLANCHADO       |
+| PARKING PRIVADO              |
+| PLANCHADO                    |
+| SERVICIO DE HABITACIONES 24H |
++------------------------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT NOMBRESERVICIO
+    -> FROM TIPO_SERVICIO;
++------------------------------+
+| NOMBRESERVICIO               |
++------------------------------+
+| ALIMENTOS & BEBIDAS          |
+| LAVADO Y PLANCHADO EN SECO   |
+| LAVANDERIA Y PLANCHADO       |
+| PARKING PRIVADO              |
+| PLANCHADO                    |
+| SERVICIO DE HABITACIONES 24H |
++------------------------------+
+6 rows in set (0.00 sec)
+
+mysql>

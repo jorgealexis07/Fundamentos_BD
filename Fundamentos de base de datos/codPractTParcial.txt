@@ -1,0 +1,181 @@
+//EJERCISIO_1
+create database practica1;
+use practica1;
+
+create table especie(
+cod_especie varchar(30) not null,
+nombreespecie varchar(20) not null,
+tipo varchar(10) not null,
+periodosmigratorios varchar(30),
+caracteristicasgenerales varchar(30) not null,
+primary key (cod_especie)
+);
+
+create table individuo(
+  codigo_individuo varchar(20) not null,
+  cod_especie varchar(30) not null,
+  peso varchar(5) not null,
+  dimenciones varchar(20),
+  primary key (codigo_individuo),
+  foreign key (cod_especie) references especie(cod_especie) 
+);
+
+create table torreta(
+  cod_torreta varchar(20) not null,
+  ubicacion varchar(30),
+  nombre varchar(20) not null,
+  primary key (cod_torreta)
+);
+
+create table movimientos(
+  cod_movimiento varchar(20) not null,
+  codigo_individuo varchar(20) not null,
+  cod_torreta varchar(20) not null,
+  fecha date not null,
+  hora varchar(10) not null,
+  tipo varchar(10) not null,
+  primary key (cod_movimiento),
+  foreign key (codigo_individuo) references individuo(codigo_individuo),
+  foreign key (cod_torreta) references torreta(cod_torreta)
+);
+
+create table informe(
+  cod_informe varchar(20) not null,
+  fecha date not null,
+  primary key (cod_informe)
+);
+
+create table biologos(
+  cod_biologos varchar (20) not null,
+  nombre varchar(15) not null,
+  direccion varchar (20) not null,
+  provincia varchar(15),
+  fechadetitulacion date not null,
+  primary key (cod_biologos)
+);
+
+create table sonregistrados(
+  cod_movimiento varchar(20) not null,
+  cod_informe varchar(20) not null,
+  foreign key (cod_movimiento) references movimientos(cod_movimiento),
+  foreign key (cod_informe) references informe(cod_informe)
+);
+
+create table reciben(
+  cod_informe varchar(20) not null,
+  cod_biologos varchar(20) not null,
+  foreign key (cod_informe) references informe(cod_informe),
+  foreign key (cod_biologos) references biologos(cod_biologos)
+);
+
+//CONSULTAS
+select nombre_especie, tipo
+ 
+from especie 
+
+where tipo = 'reptil';
+
+
+
+select *
+from especie
+
+where periodos_migratorios = current date;
+
+
+
+select nombre, fecha_de_titulacion
+
+from biologos
+
+where fecha_de_titulacion > '0-0-2010';
+
+
+
+select cod_ torrete
+
+from torreta 
+
+where ubicacion = 'norte';
+
+
+
+select nombre_especie, tipo
+
+from especie
+
+where tipo = 'felino';
+
+//EJERCISIO_2
+create database ejercicio2;
+use ejercicio2;
+create table usuario(
+  codigo varchar(20) not null,
+  email varchar(30) not null,
+  nombre varchar(15) not null,
+  direccion varchar(30) not null,
+  ciudad varchar(15) not null,
+  pais varchar(15) not null,
+  sexo varchar(10) not null,
+  orientacionsexual varchar(10),
+  password varchar(30) not null,
+  primary key (codigo)
+);
+
+create table gustos(
+  codigo_gustos varchar(20) not null,
+  ultimaactividad varchar(20) not null,
+  tipo varchar(20) not null,6  bn
+  parejaconlamismapreferencia varchar(7) not null,
+  primary key (codigo_gustos)
+);
+
+create table citas(
+  codigo_cita varchar(20) not null,
+  quiencita varchar(20),
+  lugar varchar(20),
+  hora varchar(7),
+  fracaso varchar(2),
+  primary key (codigo_cita)
+);
+
+create table realiza(
+  codigo_gustos varchar(20) not null,
+  codigo_cita varchar(20) not null,
+  foreign key (codigo_gustos) references gustos(codigo_gustos) ON DELETE CASCADE,
+  foreign key (codigo_cita) references citas(codigo_cita) ON DELETE CASCADE
+);
+
+//CONSULTAS
+select quiencita, lugar, hora
+ 
+from citas 
+
+where quien_cita = 'javier';
+
+
+
+select *
+from usuario
+
+where nombre = 'c';
+
+
+
+select nombre, ciudad, sexo
+from usuario
+where sexo = 'F';
+
+
+
+select codigo_gustos
+
+from realiza;
+
+
+
+select lugar, hora
+
+from citas
+
+where hora > '13:00';

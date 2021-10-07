@@ -1,0 +1,144 @@
+Pérez Rojas Issac
+create database parqueEco;
+
+use parqueEco;
+
+create table especie(
+ cod_especie varchar (30) not null,
+ nombreespecie varchar (20) not null,
+ tipo varchar (10) not null,
+ periodosmigratorios varchar (30),
+ caracteristicasgenerales varchar (300) not null,
+ primary key(cod_especie)
+);
+
+insert into especie (cod_especie, nombreespecie, tipo, periodosmigratorios, caracteristicasgenerales) values ('AVE1', 'Grulla', 'aves', 'Febrero', 'Es un ave grande y esbelta, de patas y cuello largos y de coloración general gris ceniza, más oscura hacia el extremo de las alas.');
+insert into especie (cod_especie, nombreespecie, tipo, periodosmigratorios, caracteristicasgenerales) values ('AVE2', 'Golondrina', 'aves', 'Mayo', 'Puede distinguirse una franja de plumas de color azul oscuro, que separan la garganta del pecho y el abdomen, recubiertos por un plumaje blanquecino');
+insert into especie (cod_especie, nombreespecie, tipo, periodosmigratorios, caracteristicasgenerales) values ('AVE3', 'Playero Rojizo', 'aves', 'Septiembre', 'Esta especie es un ave acuática que vive en el Ártico. Sus rutas de migración no son del todo exactas, pero parece que cada verano austral viaja hasta la Tierra del Fuego, para lo que descansa y se alimenta bien durante unos meses.');
+insert into especie (cod_especie, nombreespecie, tipo, periodosmigratorios, caracteristicasgenerales) values ('MAR1', 'Monarca', 'Mariposa', 'Marzo', 'La mariposa Monarca (Danaus plexippus) es reconocida internacionalmente por su fenomenal migración.');
+insert into especie (cod_especie, nombreespecie, tipo, periodosmigratorios, caracteristicasgenerales) values ('MAR2', 'Tigre', 'Mariposa', 'Noviembre', 'La mariposa tigre es una fuerte voladora que posee marcas distintivas en forma de rayas amarillas y negras en las alas y el cuerpo. ');
+
+create table individuo(
+ codigo_individuo varchar (20) not null,
+ cod_especie varchar (30) not null,
+ peso varchar (5) not null,
+ dimensiones varchar (20),
+ primary key(codigo_individuo),
+ foreign key(cod_especie) references especie(cod_especie)
+);
+
+insert into individuo (codigo_individuo, cod_especie, peso, dimenciones) values ('1', 'AVE1', '30 kg', '160 cm');
+insert into individuo (codigo_individuo, cod_especie, peso, dimenciones) values ('2', 'AVE2', '25 g', '35 cm');
+insert into individuo (codigo_individuo, cod_especie, peso, dimenciones) values ('3', 'AVE3', '30 g', '32 cm');
+insert into individuo (codigo_individuo, cod_especie, peso, dimenciones) values ('4', 'MAR1', '0.7g', '4.5 cm');
+insert into individuo (codigo_individuo, cod_especie, peso, dimenciones) values ('5', 'MAR2', '0.5 g', '3.5 cm');
+
+create table torreta(
+ cod_torreta varchar (20) not null,
+ ubicaicon varchar (30),
+ nombre varchar (20) not null,
+ primary key (cod_torreta)
+);
+
+insert into torreta (cod_torreta, ubicacion, nombre) values ('1', 'Campo Norte', 'CN');
+insert into torreta (cod_torreta, ubicacion, nombre) values ('2', 'Campo Sur', 'CS');
+insert into torreta (cod_torreta, ubicacion, nombre) values ('3', 'Campo Oeste', 'CO');
+insert into torreta (cod_torreta, ubicacion, nombre) values ('4', 'Campo Este', 'CE');
+insert into torreta (cod_torreta, ubicacion, nombre) values ('5', 'Campo Central', 'CC');
+
+create table movimientos(
+ cod_movimiento varchar (20) not null,
+ codigo_individuo varchar (20) not null,
+ cod_torreta varchar (20) not null,
+ fecha date not null,
+ hora varchar (10) not null,
+ tipo varchar (10) not null,
+ primary key (cod_movimiento),
+ foreign key (codigo_individuo) references individuo(codigo_individuo),
+ foreign key (cod_torreta) references torreta(cod_torreta)
+);
+
+insert into movimientos(cod_movimiento, codigo_individuo, cod_torreta, fecha, hora, tipo ) values ('CM1', '1', '1', '2019-10-14', '7:00 PM', 'aves');
+insert into movimientos(cod_movimiento, codigo_individuo, cod_torreta, fecha, hora, tipo ) values ('CM2', '2', '2', '2019-10-20', '12:00 AM', 'aves');
+insert into movimientos(cod_movimiento, codigo_individuo, cod_torreta, fecha, hora, tipo ) values ('CM3', '3', '3', '2019-10-22', '1:00 AM', 'aves');
+insert into movimientos(cod_movimiento, codigo_individuo, cod_torreta, fecha, hora, tipo ) values ('CM4', '4', '4', '2019-11-01', '5:00 PM', 'mariposa');
+insert into movimientos(cod_movimiento, codigo_individuo, cod_torreta, fecha, hora, tipo ) values ('CM5', '5', '5', '2019-11-06', '3:00 PM', 'mariposa');
+
+create table informe(
+ cod_informe varchar (20) not null,
+ fecha date not null,
+ primary key (cod_informe)
+);
+
+insert into informe(cod_informe, fecha) values ('CI1', '2019-10-06');
+insert into informe(cod_informe, fecha) values ('CI2', '2019-10-15');
+insert into informe(cod_informe, fecha) values ('CI3', '2019-10-25');
+insert into informe(cod_informe, fecha) values ('CI4', '2019-11-02');
+insert into informe(cod_informe, fecha) values ('CI5', '2019-11-06');
+
+create table biologos(
+ cod_biologo varchar (20) not null,
+ nombre varchar (15) not null,
+ direccion varchar (20) not null,
+ provincia varchar (15),
+ fechadetitulacion date not null,
+ primary key(cod_biologo)
+);
+
+insert into biologos(cod_biologos, nombre, direccion, provincia, fechadetitulacion) values ('CB1', 'Jotaro', 'calle 7 col emiliano', 'Japon', '2000-11-06');
+insert into biologos(cod_biologos, nombre, direccion, provincia, fechadetitulacion) values ('CB2', 'Jonathan', 'calle olivos col mar', 'Inglatera', '2002-11-06');
+insert into biologos(cod_biologos, nombre, direccion, provincia, fechadetitulacion) values ('CB3', 'Giorno', 'calle flor col sol', 'Venencia', '1998-11-06');
+insert into biologos(cod_biologos, nombre, direccion, provincia, fechadetitulacion) values ('CB4', 'Joseph', 'calle 3 col santa', 'New york', '1990-11-06');
+insert into biologos(cod_biologos, nombre, direccion, provincia, fechadetitulacion) values ('CB5', 'Josuke', 'calle luna col ame', 'Morioh', '2001-11-06');
+insert into biologos(cod_biologos, nombre, direccion, provincia, fechadetitulacion) values ('CB6', 'Joylen', 'calle sol col ame', 'Morioh', '2000-12-06');
+
+create table sonregistrados(
+ cod_movimiento varchar (20) not null,
+ cod_informe varchar (20) not null,
+ foreign key(cod_movimiento) references movimientos(cod_movimiento),
+ foreign key(cod_informe) references informe(cod_informe)
+);
+
+insert into sonregistrados(cod_movimiento, cod_informe) values ('CM1', 'CI1');
+insert into sonregistrados(cod_movimiento, cod_informe) values ('CM2', 'CI2');
+insert into sonregistrados(cod_movimiento, cod_informe) values ('CM3', 'CI3');
+insert into sonregistrados(cod_movimiento, cod_informe) values ('CM4', 'CI4');
+insert into sonregistrados(cod_movimiento, cod_informe) values ('CM5', 'CI5');
+
+create table reciben(
+ cod_informe varchar (20) not null,
+ cod_biologo varchar (20) not null,
+ foreign key(cod_informe) references informe(cod_informe), 
+ foreign key(cod_biologo) references biologos(cod_biologo)
+);
+
+insert into reciben(cod_informe, cod_biologos) values ('CI1', 'CB1');
+insert into reciben(cod_informe, cod_biologos) values ('CI2', 'CB2');
+insert into reciben(cod_informe, cod_biologos) values ('CI3', 'CB3');
+insert into reciben(cod_informe, cod_biologos) values ('CI4', 'CB4');
+insert into reciben(cod_informe, cod_biologos) values ('CI5', 'CB5');
+
+/*todos los que son aves*/
+SELECT nombreespecie,tipo 
+   FROM especie 
+	WHERE tipo='aves';
+
+/*todos los que son mariposas y su tipo*/
+SELECT nombreespecie, tipo 
+	FROM especie
+		WHERE tipo = 'mariposa';
+
+/*que muestre el movimiento de la torreta norte*/
+select M.cod_movimiento, T.cod_torreta, T.ubicaicon 
+from movimientos M, torreta T
+ where M.cod_torreta = T.cod_torreta and T.cod_torreta = T.ubicaicon and t.ubicaicon = 'Campo Norte';
+
+/*todos los que se titularon despues del 2000*/
+SELECT nombre,fechadetitulacion 
+	FROM biologos 
+		WHERE fechadetitulacion  BETWEEN 2000-11-06 AND 2002-11-06;
+
+/*biologos que su provincia sea Morioh*/
+SELECT nombre,provincia 
+   FROM biologos 
+	WHERE provincia='Morioh';

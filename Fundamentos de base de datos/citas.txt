@@ -1,0 +1,91 @@
+CREATE DATABASE Citas;
+USE Citas;
+
+CREATE TABLE usuario(
+ codigo INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+ email VARCHAR(30) NOT NULL,
+ nombre VARCHAR(15) NOT NULL,
+ direccion VARCHAR(30) NOT NULL,
+ ciudad VARCHAR(15) NOT NULL,
+ pais VARCHAR(15) NOT NULL,
+ sexo VARCHAR(10) NOT NULL,
+ orientacionsexual VARCHAR(10),
+ password VARCHAR(30) NOT NULL,
+ PRIMARY KEY(codigo)
+);
+
+INSERT INTO usuario(nombre,email,direccion,ciudad,pais,sexo,orientacionsexual,password) VALUES ('Donatelo','copcop20@gmail.com','calle 7','Denver','Estados Unidos','Masculino','Hetero','12345');
+INSERT INTO usuario(nombre,email,direccion,ciudad,pais,sexo,orientacionsexual,password) VALUES ('Samuel','Sam1234@hotmail.com','calle olivos','Tokyo','México','Masculino','Bisexual','67890');
+INSERT INTO usuario(nombre,email,direccion,ciudad,pais,sexo,orientacionsexual,password) VALUES ('Diana','DianizG12@gmail.com','calle flor', 'New york','Estados Unidos','Hetero','Mujeres','123ABC');
+INSERT INTO usuario(nombre,email,direccion,ciudad,pais,sexo,orientacionsexual,password) VALUES ('Leticia','LetVera@gmail.com','calle norte', 'Monterey','México','Femenino','Bisexual','ZXY098');
+INSERT INTO usuario(nombre,email,direccion,ciudad,pais,sexo,orientacionsexual,password) VALUES ('Juan','JuanDEdios@yahoo.com','calle 20', 'Texa','Estados Unidos','Masculino','Hetero','ABCD567');
+
+CREATE TABLE gustos(
+ codigo INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+ ultimaactividad VARCHAR(20) NOT NULL,
+ tipo VARCHAR(20) NOT NULL,
+ parejaconlamismapreferencia VARCHAR(7) NOT NULL,
+ PRIMARY KEY(codigo)
+);
+
+INSERT INTO gustos(ultimaactividad,tipo,parejaconlamismapreferencia) VALUES ('1 dias','Futbol','Si');
+INSERT INTO gustos(ultimaactividad,tipo,parejaconlamismapreferencia) VALUES ('1 mes','Concierto','no');
+INSERT INTO gustos(ultimaactividad,tipo,parejaconlamismapreferencia) VALUES ('5 minutos','GYM','si');
+INSERT INTO gustos(ultimaactividad,tipo,parejaconlamismapreferencia) VALUES ('1 mes','Evento Social','no');
+INSERT INTO gustos(ultimaactividad,tipo,parejaconlamismapreferencia) VALUES ('1 dias','Arte recreativo','Si');
+
+CREATE TABLE citas(
+ codigo INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+ quiencita VARCHAR(20),
+ lugar VARCHAR(20),
+ hora VARCHAR(30),
+ fracaso VARCHAR(15),
+ PRIMARY KEY(codigo)
+);
+
+INSERT INTO citas(quiencita,lugar,hora,fracaso) VALUES ('Laura','Bar','13:00','si');
+INSERT INTO citas(quiencita,lugar,hora,fracaso) VALUES ('Rebeca','El rico','11:00','no');
+INSERT INTO citas(quiencita,lugar,hora,fracaso) VALUES ('Oscar','Chili','20:00','si');
+INSERT INTO citas(quiencita,lugar,hora,fracaso) VALUES ('Samantha','Cine','15:00','si');
+INSERT INTO citas(quiencita,lugar,hora,fracaso) VALUES ('Ana','Parque','10:00','no');
+
+CREATE TABLE realiza(
+ codigo_gustos INTEGER UNSIGNED,
+ codigo_citas INTEGER UNSIGNED,
+ FOREIGN KEY(codigo_gustos) REFERENCES gustos(codigo) ON DELETE CASCADE, 
+ FOREIGN KEY(codigo_citas) REFERENCES citas(codigo) ON DELETE CASCADE
+);
+
+INSERT INTO realiza VALUES (1,2);
+INSERT INTO realiza VALUES (2,1);
+INSERT INTO realiza VALUES (3,3);
+
+/**/
+
+SELECT g.ultimactividad, c.quiencita, u.nombre
+FROM gustos g, citas c, usuario u
+Where u.codigo=c.quiencitas;
+
+/**/
+
+SELECT codigo, nombre
+FROM usuario
+where sexo='Femenino';
+
+/**/
+
+SELECT nombre
+FROM usuario
+where ciudad='Denver';
+
+/**/
+
+SELECT codigo, nombre, email
+FROM usuario
+where nombre='Juan';
+
+/**/
+
+SELECT u.nombre, c.quiencita
+FROM usuario u, citas c
+Where u.codigo=c.quiencita;
